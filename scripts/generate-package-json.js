@@ -9,15 +9,15 @@ import {
   TYPES_EXT,
   ESM_EXT,
   COMMON_EXT,
+  OUT_DIR,
 } from "./constants.js";
 
 /**
- *
  * @param {string[]} modules
  * @returns {Promise<void>}
  */
-export async function updatePackageJson(modules) {
-  /** @type {Record<string, { import: string, require: string }>} */
+export async function generatePackageJson(modules) {
+  /** @type {Record<string, { types:string, import: string, require: string }>} */
   const exports = {};
 
   exports["."] = {
@@ -28,9 +28,9 @@ export async function updatePackageJson(modules) {
 
   for (const module of modules) {
     exports[`./${module}`] = {
-      types: `./${TYPES_PATH}/${module}.${TYPES_EXT}`,
-      import: `./${ESM_PATH}/${module}.${ESM_EXT}`,
-      require: `./${COMMON_PATH}/${module}.${COMMON_EXT}`,
+      types: `./${TYPES_PATH}${module}.${TYPES_EXT}`,
+      import: `./${ESM_PATH}${module}.${ESM_EXT}`,
+      require: `./${COMMON_PATH}${module}.${COMMON_EXT}`,
     };
   }
 
@@ -38,13 +38,20 @@ export async function updatePackageJson(modules) {
     .readFile("package.json", { encoding: "utf-8" })
     .then(JSON.parse);
 
+  pkg.main = COMMON_INDEX;
+  pkg.module = ESM_INDEX;
+  pkg.types = TYPES_INDEX;
+  pkg.sideEffects = false;
   pkg.exports = exports;
+  pkg.files = Object.values(exports)
+    .flatMap((v) => [v.types, v.import, v.require])
+    .map((file) => (file.startsWith("./") ? file.slice(2) : file));
 
-  pkg.main = "index.cjs";
-  pkg.module = "index.js";
-  pkg.types = "index.d.ts";
+  delete pkg.devDependencies;
+  delete pkg.scripts;
 
-  pkg.files = Object.values().flatMap((values) => values);
-
-  await fs.writeFile("package.json", JSON.stringify(pkg, undefined, 2));
+  await fs.writeFile(
+    `${OUT_DIR}/package.json`,
+    JSON.stringify(pkg, undefined, 2)
+  );
 }

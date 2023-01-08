@@ -1,6 +1,6 @@
 export type Guard<T> = (v: unknown) => v is T;
 
-export type Infer<T> = T extends Guard<infer P> ? P : never;
+export type TypeOfGuard<T> = T extends Guard<infer P> ? P : never;
 
 export type Refinement<T> = (v: T) => boolean;
 

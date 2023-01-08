@@ -1,9 +1,10 @@
+export const OUT_DIR = "dist";
 export const ESM_PATH = "";
 export const COMMON_PATH = "";
 export const TYPES_PATH = "";
 export const ESM_EXT = "js";
 export const COMMON_EXT = "cjs";
-export const TYPES_EXT = "js";
+export const TYPES_EXT = "d.ts";
 export const COMMON_INDEX = `index.${COMMON_EXT}`;
 export const ESM_INDEX = `index.${ESM_EXT}`;
 export const TYPES_INDEX = `index.${TYPES_EXT}`;

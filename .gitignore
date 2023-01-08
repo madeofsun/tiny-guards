@@ -2,9 +2,7 @@
 
 node_modules
 
-/*.js
-/*.cjs
-/*.ts
+dist
 
-/package
-/*.tgz
+package
+*.tgz
