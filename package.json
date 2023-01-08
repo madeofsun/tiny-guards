@@ -1,0 +1,116 @@
+{
+  "name": "tiny-guards",
+  "version": "0.0.0-pre.2",
+  "type": "module",
+  "files": [
+    "dist",
+    "index.cjs",
+    "index.js",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "preversion": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "typescript": "^4.9.4"
+  },
+  "keywords": [
+    "typescript",
+    "guards",
+    "validate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madeofsun/tiny-guards"
+  },
+  "author": "madeofsun (https://github.com/madeofsun)",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./and": {
+      "types": "./dist/types/and.js",
+      "import": "./dist/esm/and.js",
+      "require": "./dist/common/and.cjs"
+    },
+    "./array": {
+      "types": "./dist/types/array.js",
+      "import": "./dist/esm/array.js",
+      "require": "./dist/common/array.cjs"
+    },
+    "./basicGuards": {
+      "types": "./dist/types/basicGuards.js",
+      "import": "./dist/esm/basicGuards.js",
+      "require": "./dist/common/basicGuards.cjs"
+    },
+    "./basicRefinements": {
+      "types": "./dist/types/basicRefinements.js",
+      "import": "./dist/esm/basicRefinements.js",
+      "require": "./dist/common/basicRefinements.cjs"
+    },
+    "./instance": {
+      "types": "./dist/types/instance.js",
+      "import": "./dist/esm/instance.js",
+      "require": "./dist/common/instance.cjs"
+    },
+    "./literal": {
+      "types": "./dist/types/literal.js",
+      "import": "./dist/esm/literal.js",
+      "require": "./dist/common/literal.cjs"
+    },
+    "./narrow": {
+      "types": "./dist/types/narrow.js",
+      "import": "./dist/esm/narrow.js",
+      "require": "./dist/common/narrow.cjs"
+    },
+    "./nullable": {
+      "types": "./dist/types/nullable.js",
+      "import": "./dist/esm/nullable.js",
+      "require": "./dist/common/nullable.cjs"
+    },
+    "./nullish": {
+      "types": "./dist/types/nullish.js",
+      "import": "./dist/esm/nullish.js",
+      "require": "./dist/common/nullish.cjs"
+    },
+    "./oneOf": {
+      "types": "./dist/types/oneOf.js",
+      "import": "./dist/esm/oneOf.js",
+      "require": "./dist/common/oneOf.cjs"
+    },
+    "./optional": {
+      "types": "./dist/types/optional.js",
+      "import": "./dist/esm/optional.js",
+      "require": "./dist/common/optional.cjs"
+    },
+    "./or": {
+      "types": "./dist/types/or.js",
+      "import": "./dist/esm/or.js",
+      "require": "./dist/common/or.cjs"
+    },
+    "./refine": {
+      "types": "./dist/types/refine.js",
+      "import": "./dist/esm/refine.js",
+      "require": "./dist/common/refine.cjs"
+    },
+    "./shape": {
+      "types": "./dist/types/shape.js",
+      "import": "./dist/esm/shape.js",
+      "require": "./dist/common/shape.cjs"
+    },
+    "./tuple": {
+      "types": "./dist/types/tuple.js",
+      "import": "./dist/esm/tuple.js",
+      "require": "./dist/common/tuple.cjs"
+    },
+    "./types": {
+      "types": "./dist/types/types.js",
+      "import": "./dist/esm/types.js",
+      "require": "./dist/common/types.cjs"
+    }
+  }
+}
