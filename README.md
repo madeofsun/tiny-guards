@@ -45,7 +45,7 @@ const isUser = shape({
   lastName: optional(isString),
 });
 
-type Person = TypeOfGuard<typeof isUser>;
+type User = TypeOfGuard<typeof isUser>;
 
 function doSomething(v: unknown) {
   if (isUser(v)) {

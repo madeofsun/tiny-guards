@@ -1,9 +1,10 @@
 {
   "name": "tiny-guards",
-  "version": "0.0.0-pre.5",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
