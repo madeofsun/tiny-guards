@@ -39,7 +39,9 @@ function generateCommonIndex(modules) {
     )
     .join(";\n");
 
-  const exports = `module.exports = { \n\t${modules.join(",\n\t")}\n};`;
+  const exports = `module.exports = { \n\t${modules
+    .map((module) => `...${module}`)
+    .join(",\n\t")}\n};`;
 
   return `${imports};\n\n${exports}\n`;
 }
