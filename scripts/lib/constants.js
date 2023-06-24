@@ -1,3 +1,4 @@
+export const IN_DIR = "src";
 export const OUT_DIR = "dist";
 export const ESM_PATH = "";
 export const COMMON_PATH = "";

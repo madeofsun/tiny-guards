@@ -1,22 +1,19 @@
 import fs from "node:fs/promises";
+
 import {
-  COMMON_INDEX,
-  COMMON_PATH,
-  ESM_INDEX,
-  ESM_PATH,
-  TYPES_INDEX,
-  TYPES_PATH,
-  TYPES_EXT,
-  ESM_EXT,
   COMMON_EXT,
+  COMMON_INDEX,
+  ESM_EXT,
+  ESM_INDEX,
   OUT_DIR,
+  TYPES_EXT,
+  TYPES_INDEX,
 } from "./constants.js";
 
 /**
- * @param {string[]} modules
  * @returns {Promise<void>}
  */
-export async function generatePackageJson(modules) {
+export async function generatePackageJson() {
   /** @type {Record<string, { types:string, import: string, require: string }>} */
   const exports = {};
 
@@ -26,13 +23,11 @@ export async function generatePackageJson(modules) {
     require: `./${COMMON_INDEX}`,
   };
 
-  for (const module of modules) {
-    exports[`./${module}`] = {
-      types: `./${TYPES_PATH}${module}.${TYPES_EXT}`,
-      import: `./${ESM_PATH}${module}.${ESM_EXT}`,
-      require: `./${COMMON_PATH}${module}.${COMMON_EXT}`,
-    };
-  }
+  exports[`./*`] = {
+    types: `./*.${TYPES_EXT}`,
+    import: `./*.${ESM_EXT}`,
+    require: `./*.${COMMON_EXT}`,
+  };
 
   const pkg = await fs
     .readFile("package.json", { encoding: "utf-8" })
@@ -43,9 +38,15 @@ export async function generatePackageJson(modules) {
   pkg.types = TYPES_INDEX;
   pkg.sideEffects = false;
   pkg.exports = exports;
-  pkg.files = Object.values(exports)
-    .flatMap((v) => [v.types, v.import, v.require])
-    .map((file) => (file.startsWith("./") ? file.slice(2) : file));
+  pkg.files = [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "internal",
+    "*.d.ts",
+    "*.js",
+    "*.cjs",
+  ];
 
   delete pkg.devDependencies;
   delete pkg.scripts;

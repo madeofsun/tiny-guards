@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "./.eslintrc-import"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "overrides": [
+    {
+      "files": ["tests/**/*", "scripts/**/*"],
+      "env": { "node": true }
+    },
+    {
+      "files": ["jest-config/**/*", "jest.config.cjs"],
+      "env": { "node": true }
+    }
+  ]
+}

@@ -1,4 +1,9 @@
-import type { Guard } from "./types.js";
+import {
+  dev_debug,
+  dev_debug_end,
+  dev_debug_start,
+} from "./internal/dev_debug";
+import type { Guard } from "./types";
 
 export function and<T1, T2>(
   guard1: Guard<T1>,
@@ -46,5 +51,18 @@ export function and<T1, T2, T3, T4, T5, T6, T7>(
 ): Guard<T1 & T2 & T3 & T4 & T5 & T6 & T7>;
 
 export function and(...guards: Guard<unknown>[]): Guard<unknown> {
-  return (v: unknown): v is unknown => guards.every((g) => g(v));
+  return function isAnd(v: unknown): v is unknown {
+    dev_debug_start(isAnd);
+
+    for (let i = 0; i < guards.length; i++) {
+      if (!guards[i]!(v)) {
+        dev_debug`${isAnd} failed - value: ${v}, guardIndex: ${i}`;
+
+        return false;
+      }
+    }
+
+    dev_debug_end(isAnd);
+    return true;
+  };
 }

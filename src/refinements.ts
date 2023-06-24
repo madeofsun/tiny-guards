@@ -1,36 +1,43 @@
-import type { Refinement } from "./types.js";
+import type { Refinement } from "./types";
 
-export const gt =
-  (bound: number): Refinement<number> =>
-  (v) =>
-    v > bound;
+export function gt(bound: number): Refinement<number> {
+  return function isGt(v) {
+    return v > bound;
+  };
+}
 
-export const gte =
-  (bound: number): Refinement<number> =>
-  (v) =>
-    v >= bound;
+export function gte(bound: number): Refinement<number> {
+  return function isGte(v) {
+    return v >= bound;
+  };
+}
 
-export const lt =
-  (bound: number): Refinement<number> =>
-  (v) =>
-    v < bound;
+export function lt(bound: number): Refinement<number> {
+  return function isLt(v) {
+    return v < bound;
+  };
+}
 
-export const lte =
-  (bound: number): Refinement<number> =>
-  (v) =>
-    v <= bound;
+export function lte(bound: number): Refinement<number> {
+  return function isLte(v) {
+    return v <= bound;
+  };
+}
 
-export const len =
-  (len: number): Refinement<{ length: number }> =>
-  (v) =>
-    v.length === len;
+export function len(len: number): Refinement<{ length: number }> {
+  return function isLen(v) {
+    return v.length === len;
+  };
+}
 
-export const minLen =
-  (len: number): Refinement<{ length: number }> =>
-  (v) =>
-    v.length >= len;
+export function minLen(len: number): Refinement<{ length: number }> {
+  return function isMinLen(v) {
+    return v.length >= len;
+  };
+}
 
-export const maxLen =
-  (len: number): Refinement<{ length: number }> =>
-  (v) =>
-    v.length <= len;
+export function maxLen(len: number): Refinement<{ length: number }> {
+  return function isMaxLen(v) {
+    return v.length <= len;
+  };
+}

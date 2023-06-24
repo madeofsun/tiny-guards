@@ -1,4 +1,9 @@
-import type { Guard } from "./types.js";
+import {
+  dev_debug,
+  dev_debug_end,
+  dev_debug_start,
+} from "./internal/dev_debug";
+import type { Guard } from "./types";
 
 export function tuple<T1, T2>(
   guard1: Guard<T1>,
@@ -29,7 +34,29 @@ export function tuple<T1, T2, T3, T4, T5>(
 export function tuple<T extends unknown[]>(
   ...guards: readonly Guard<unknown>[]
 ): Guard<T> {
-  return (v: unknown): v is T => {
-    return Array.isArray(v) && guards.every((g, index) => g(v[index]));
+  return function isTuple(v: unknown): v is T {
+    dev_debug_start(isTuple);
+
+    if (!Array.isArray(v)) {
+      dev_debug`${isTuple} failed - value: ${v}`;
+      return false;
+    }
+
+    if (v.length !== guards.length) {
+      dev_debug`${isTuple} expects length of ${guards.length} - value: ${v}`;
+      return false;
+    }
+
+    for (let i = 0; i < guards.length; i++) {
+      const guard = guards[i]!;
+      const value = v[i];
+      if (!guard(value)) {
+        dev_debug`${isTuple} guard failed - index: ${i}, value: ${value}`;
+        return false;
+      }
+    }
+
+    dev_debug_end(isTuple);
+    return true;
   };
 }

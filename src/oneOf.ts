@@ -1,6 +1,21 @@
-import type { Guard, Primitive } from "./types.js";
+import {
+  dev_debug,
+  dev_debug_end,
+  dev_debug_start,
+} from "./internal/dev_debug";
+import type { Guard } from "./types";
 
-export function oneOf<T extends Primitive>(values: T[]): Guard<T> {
+export function oneOf<T>(values: T[]): Guard<T> {
   const set = new Set<unknown>(values);
-  return (v: unknown): v is T => set.has(v);
+  return function isOneOf(v: unknown): v is T {
+    dev_debug_start(isOneOf);
+
+    if (!set.has(v)) {
+      dev_debug`${isOneOf} failed - value: ${v}`;
+      return false;
+    }
+
+    dev_debug_end(isOneOf);
+    return true;
+  };
 }
