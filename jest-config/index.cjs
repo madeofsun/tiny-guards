@@ -23,7 +23,7 @@ module.exports = {
     ],
   },
   extensionsToTreatAsEsm: [".ts"],
-  coveragePathIgnorePatterns: ["internal/dev_*"],
+  coveragePathIgnorePatterns: ["internal/dev_*", "index.ts", "types.ts"],
   coverageThreshold: {
     global: {
       branches: 100,

@@ -35,9 +35,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage
-          path: coverage
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist
+          path: coverage/clover.xml
