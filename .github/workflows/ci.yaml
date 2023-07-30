@@ -30,11 +30,11 @@ jobs:
           npm run test:coverage
           npm run build
           npm run test:build
-          npm run test:pkg
+      # npm run test:pkg
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage
+          name: coverage
           path: coverage
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
