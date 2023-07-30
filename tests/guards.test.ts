@@ -1,15 +1,23 @@
-import * as guards from "../src/guards";
+import isBigInt from "../src/isBigInt";
+import isBoolean from "../src/isBoolean";
+import isFunction from "../src/isFunction";
+import isNull from "../src/isNull";
+import isNumber from "../src/isNumber";
+import isObject from "../src/isObject";
+import isString from "../src/isString";
+import isSymbol from "../src/isSymbol";
+import isUndefined from "../src/isUndefined";
 
 describe("guards", () => {
   const tests = [
-    [guards.isNull, [null]],
-    [guards.isUndefined, [undefined]],
-    [guards.isBoolean, [true, false]],
-    [guards.isNumber, [0, 1, -1, 1.2]],
-    [guards.isString, ["", "str"]],
-    [guards.isObject, [{}, { a: "a" }]],
+    [isNull, [null]],
+    [isUndefined, [undefined]],
+    [isBoolean, [true, false]],
+    [isNumber, [0, 1, -1, 1.2]],
+    [isString, ["", "str"]],
+    [isObject, [{}, { a: "a" }]],
     [
-      guards.isFunction,
+      isFunction,
       [
         () => null,
         function () {
@@ -17,8 +25,8 @@ describe("guards", () => {
         },
       ],
     ],
-    [guards.isSymbol, [Symbol()]],
-    [guards.isBigInt, [0n, 100n]],
+    [isSymbol, [Symbol()]],
+    [isBigInt, [0n, 100n]],
   ] as const;
 
   const cases = tests.map(([, cases]) => cases as readonly unknown[]);

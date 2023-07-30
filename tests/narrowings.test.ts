@@ -1,11 +1,9 @@
-import {
-  endsWith,
-  isCapitalized,
-  isLowercase,
-  isUncapitalized,
-  isUppercase,
-  startsWith,
-} from "../src/narrowings";
+import endsWith from "../src/endsWith";
+import isCapitalized from "../src/isCapitalized";
+import isLowercase from "../src/isLowercase";
+import isUncapitalized from "../src/isUncapitalized";
+import isUppercase from "../src/isUppercase";
+import startsWith from "../src/startsWith";
 
 describe("narrowings", () => {
   test(isUppercase.name, () => {

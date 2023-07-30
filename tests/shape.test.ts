@@ -1,9 +1,11 @@
-import { isNumber, isString } from "../src/guards";
-import { oneOf } from "../src/oneOf";
-import { optional } from "../src/optional";
-import { refine } from "../src/refine";
-import { gt, maxLen } from "../src/refinements";
-import { shape } from "../src/shape";
+import isNumber from "../src/isNumber";
+import isString from "../src/isString";
+import oneOf from "../src/oneOf";
+import optional from "../src/optional";
+import refine from "../src/refine";
+import gt from "../src/gt";
+import maxLen from "../src/maxLen";
+import shape from "../src/shape";
 
 describe(shape.name, () => {
   const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));

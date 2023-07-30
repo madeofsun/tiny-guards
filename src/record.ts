@@ -5,7 +5,7 @@ import {
 } from "./internal/dev_debug";
 import { Guard, Narrowing } from "./types";
 
-export function record<K extends string, V>(
+export default function record<K extends string, V>(
   key: Narrowing<string, K>,
   value: Guard<V>
 ): Guard<Record<K, V>> {
@@ -13,19 +13,25 @@ export function record<K extends string, V>(
     dev_debug_start(isRecord);
 
     if (typeof v !== "object" || v === null) {
-      dev_debug`${isRecord} failed - value: ${v}`;
+      dev_debug(
+        isRecord,
+        v === null
+          ? `failed - value is "null"`
+          : `failed - typeof value is not "object"`,
+        v
+      );
       return false;
     }
 
     for (const _key in v) {
       if (!key(_key)) {
-        dev_debug`${isRecord} key guard failed - key: ${_key}`;
+        dev_debug(isRecord, `key guard failed at key "${_key}"`, _key);
         return false;
       }
       // @ts-expect-error suppress
       const _value = v[_key];
       if (!value(_value)) {
-        dev_debug`${isRecord} value guard failed - key ${_key}, value: ${_value}`;
+        dev_debug(isRecord, `value guard failed at key "${_key}"`, _value);
         return false;
       }
     }

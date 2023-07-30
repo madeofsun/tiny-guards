@@ -1,6 +1,7 @@
-import { and } from "../src/and";
-import { isNumber, isString } from "../src/guards";
-import { shape } from "../src/shape";
+import and from "../src/and";
+import isString from "../src/isString";
+import isNumber from "../src/isNumber";
+import shape from "../src/shape";
 
 test(and.name, () => {
   const isAB = and(

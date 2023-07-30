@@ -1,4 +1,10 @@
-import { gt, gte, len, lt, lte, maxLen, minLen } from "../src/refinements";
+import gt from "../src/gt";
+import gte from "../src/gte";
+import len from "../src/len";
+import lt from "../src/lt";
+import lte from "../src/lte";
+import maxLen from "../src/maxLen";
+import minLen from "../src/minLen";
 
 describe("refinements", () => {
   test(gt.name, () => {

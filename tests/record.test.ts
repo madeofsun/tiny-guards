@@ -1,12 +1,13 @@
-import { isString } from "../src/guards";
-import { startsWith } from "../src/narrowings";
-import { record } from "../src/record";
+import isString from "../src/isString";
+import startsWith from "../src/startsWith";
+import record from "../src/record";
 
 test(record.name, () => {
   const symbol = Symbol();
   const isRecord = record(startsWith("$"), isString);
 
   expect(isRecord({})).toBe(true);
+  expect(isRecord(null)).toBe(false);
   expect(isRecord(() => null)).toBe(false);
   expect(isRecord("")).toBe(false);
 

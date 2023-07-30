@@ -1,7 +1,7 @@
-import { isNull } from "./guards";
-import { or } from "./or";
-import type { Guard } from "./types";
+import isNull from "./isNull";
+import or from "./or";
+import { type Guard } from "./types";
 
-export function nullable<T>(guard: Guard<T>) {
+export default function nullable<T>(guard: Guard<T>) {
   return or(isNull, guard);
 }

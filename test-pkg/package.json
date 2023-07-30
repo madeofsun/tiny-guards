@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "tiny-guards": "file:../dist"
+  },
+  "scripts": {
+    "types": "tsc -p cjs/jsconfig.json && tsc -p esm/jsconfig.json",
+    "test": "node cjs/index.js && node esm/index.mjs"
+  }
+}

@@ -1,9 +1,9 @@
 const plugins = [[require.resolve("./remove-dev-plugin.cjs"), {}]];
 
-if (process.env.DIST_EXT) {
+if (process.env.DIST) {
   plugins.push([
     require.resolve("./use-dist-plugin.cjs"),
-    { extension: process.env.DIST_EXT },
+    { dist: process.env.DIST },
   ]);
 }
 
@@ -24,4 +24,12 @@ module.exports = {
   },
   extensionsToTreatAsEsm: [".ts"],
   coveragePathIgnorePatterns: ["internal/dev_*"],
+  coverageThreshold: {
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+  },
 };

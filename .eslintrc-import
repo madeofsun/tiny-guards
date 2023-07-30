@@ -3,6 +3,10 @@
     "import"
   ],
   "rules": {
+    "import/consistent-type-specifier-style": [
+      "error",
+      "prefer-inline"
+    ],
     "import/no-absolute-path": [
       "error"
     ],
@@ -27,5 +31,28 @@
     "import/newline-after-import": [
       "error"
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/*.ts"
+      ],
+      "excludedFiles": [
+        "types.ts",
+        "index.ts"
+      ],
+      "rules": {
+        "import/extensions": [
+          "error",
+          "never"
+        ],
+        "import/no-anonymous-default-export": [
+          "error"
+        ],
+        "import/no-named-export": [
+          "error"
+        ]
+      }
+    }
+  ]
 }

@@ -1,36 +1,39 @@
 class TinyGuardsError extends Error {}
 
-export function dev_debug(strings: TemplateStringsArray, ...args: unknown[]) {
-  const [fn] = args;
-  if (typeof fn !== "function") {
-    throw new Error("PANIC: first arg must be a function");
+export function dev_debug(
+  anchor: { name: string },
+  message: string,
+  value: unknown
+) {
+  if (messages.length === 0) {
+    v = value;
   }
-  const parts: string[] = [strings[0]!, fn.name];
-  for (let i = 1; i < args.length; i++) {
-    const arg = args[i];
-    parts.push(JSON.stringify(arg, undefined, 2));
-    parts.push(strings[i + 1]!);
-  }
-  messages.push(parts.join(""));
-  dev_debug_end(fn);
+  messages.push(`[${anchor.name}]: ${message}`);
+  dev_debug_end(anchor);
 }
 
 let debugAnchor: unknown = null;
+let v: unknown;
 let messages: string[] = [];
 
-export function dev_debug_start(anchor: object) {
+export function dev_debug_start(anchor: { name: string }) {
   if (!debugAnchor) {
     debugAnchor = anchor;
     messages = [];
   }
 }
 
-export function dev_debug_end(anchor: unknown) {
+export function dev_debug_end(anchor: { name: string }) {
   if (debugAnchor === anchor) {
     debugAnchor = null;
     if (messages.length > 0) {
-      // @ts-expect-error suppress
-      console.error(new TinyGuardsError(`\n${messages.join("\n")}`));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      console.error(
+        new TinyGuardsError(`\n${messages.reverse().join("\n")}`),
+        "\nValue:",
+        v
+      );
     }
   }
 }

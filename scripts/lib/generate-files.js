@@ -1,8 +1,17 @@
-import fs from "node:fs/promises";
+import fs from "node:fs";
+import fsp from "node:fs/promises";
+import path from "node:path";
 
 import ts from "typescript";
 
-import { COMMON_PATH, ESM_PATH, OUT_DIR, TYPES_PATH } from "./constants.js";
+import {
+  COMMON_DIR,
+  COMMON_EXT,
+  ESM_DIR,
+  ESM_EXT,
+  OUT_DIR,
+  TYPES_DIR,
+} from "./constants.js";
 
 /**
  * @param {string} tsConfigPath
@@ -32,12 +41,12 @@ function prepareConfig(tsConfigPath, tsConfig, { type }) {
         ...parsed.config.compilerOptions,
         noEmit: false,
         declaration: type === "common",
-        declarationDir: `${OUT_DIR}/${TYPES_PATH}`,
-        module: type === "common" ? "CommonJS" : "ES6",
+        declarationDir: `${OUT_DIR}/${TYPES_DIR}`,
+        module: type === "common" ? "CommonJS" : undefined,
         outDir:
           type === "common"
-            ? `${OUT_DIR}/${COMMON_PATH}`
-            : `${OUT_DIR}/${ESM_PATH}`,
+            ? `${OUT_DIR}/${COMMON_DIR}`
+            : `${OUT_DIR}/${ESM_DIR}`,
       },
     },
     ts.sys,
@@ -58,18 +67,29 @@ async function build(config) {
   /** @type {Promise<void>[]} */
   const writeFilePromises = [];
 
-  const transformers = [
-    debugTransformerFactory,
-    extensionTransformerFactory(isCommon ? "cjs" : "js"),
-  ];
+  const transformers = [debugTransformerFactory];
 
   program.emit(
     undefined,
     (fileName, text) => {
-      if (isCommon && fileName.endsWith(".js")) {
-        fileName = changeExtension(fileName, "js", "cjs");
+      if (fileName.endsWith(".js")) {
+        if (isCommon) {
+          fileName = changeExtension(fileName, "js", COMMON_EXT);
+          text = text.replace(
+            /require\("\.(.*)"\)/g,
+            `require(".$1.${COMMON_EXT}")`
+          );
+        } else {
+          text = text.replace(/from "\.(.*)"/g, `from ".$1.${ESM_EXT}"`);
+        }
       }
-      writeFilePromises.push(fs.writeFile(fileName, text));
+
+      writeFilePromises.push(
+        fsp
+          .access(path.dirname(fileName), fs.constants.W_OK | fs.constants.X_OK)
+          .catch(() => fsp.mkdir(path.dirname(fileName), { recursive: true }))
+          .then(() => fsp.writeFile(fileName, text))
+      );
     },
     undefined,
     undefined,
@@ -78,24 +98,6 @@ async function build(config) {
 
   await Promise.all(writeFilePromises);
 }
-
-/**
- * @type {(ext: string) => ts.TransformerFactory<ts.SourceFile>}
- */
-const extensionTransformerFactory = (ext) => () => {
-  return (node) => {
-    for (const statement of node.statements) {
-      if (
-        ts.isImportDeclaration(statement) &&
-        ts.isStringLiteral(statement.moduleSpecifier) &&
-        statement.moduleSpecifier.text.startsWith("./")
-      ) {
-        statement.moduleSpecifier.text += `.${ext}`;
-      }
-    }
-    return node;
-  };
-};
 
 /**
  * @type {ts.TransformerFactory<ts.SourceFile>}

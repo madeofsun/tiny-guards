@@ -3,9 +3,9 @@ import {
   dev_debug_end,
   dev_debug_start,
 } from "./internal/dev_debug";
-import type { Guard, Refinement } from "./types";
+import { type Guard, type Refinement } from "./types";
 
-export function array<T>(
+export default function array<T>(
   guard?: Guard<T>,
   ...refinements: Refinement<unknown[]>[]
 ): Guard<T[]> {
@@ -13,22 +13,22 @@ export function array<T>(
     dev_debug_start(isArray);
 
     if (!Array.isArray(v)) {
-      dev_debug`${isArray} failed - value: ${v}`;
+      dev_debug(isArray, `failed - value is not array`, v);
       return false;
     }
 
     for (let i = 0; i < refinements.length; i++) {
       if (!refinements[i]!(v)) {
-        dev_debug`${isArray} refinement failed - value: ${v}, refinementIndex: ${i}`;
+        dev_debug(isArray, `refinements[${i}] failed`, v);
         return false;
       }
     }
 
     if (guard) {
       for (let i = 0; i < v.length; i++) {
-        const value = v[i];
-        if (!guard(value)) {
-          dev_debug`${isArray} guard failed - index: ${i}, value: ${value}`;
+        const item = v[i];
+        if (!guard(item)) {
+          dev_debug(isArray, `guard failed at items[${i}]`, item);
           return false;
         }
       }

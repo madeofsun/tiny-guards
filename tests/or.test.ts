@@ -1,5 +1,6 @@
-import { isNumber, isString } from "../src/guards";
-import { or } from "../src/or";
+import isNumber from "../src/isNumber";
+import isString from "../src/isString";
+import or from "../src/or";
 
 test(or.name, () => {
   const isStringOrNumber = or(isString, isNumber);

@@ -1,5 +1,5 @@
-import { array } from "../src/array";
-import { isString } from "../src/guards";
+import array from "../src/array";
+import isString from "../src/isString";
 
 describe(array.name, () => {
   test("guard", () => {

@@ -1,5 +1,5 @@
-import { isString } from "../src/guards";
-import { nullable } from "../src/nullable";
+import isString from "../src/isString";
+import nullable from "../src/nullable";
 
 test(nullable.name, () => {
   const isNullOrString = nullable(isString);

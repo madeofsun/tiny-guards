@@ -1,4 +1,4 @@
-import { literal } from "../src/literal";
+import literal from "../src/literal";
 
 test(literal.name, () => {
   const isAbc = literal("abc");

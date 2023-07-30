@@ -1,6 +1,7 @@
-import { isNumber, isString } from "../src/guards";
-import { tuple } from "../src/tuple";
-import { instance } from "../src/instance";
+import isNumber from "../src/isNumber";
+import isString from "../src/isString";
+import tuple from "../src/tuple";
+import instance from "../src/instance";
 
 test(tuple.name, () => {
   const isTuple = tuple(isString, isNumber, instance(Date));
