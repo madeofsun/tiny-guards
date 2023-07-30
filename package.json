@@ -9,7 +9,7 @@
     "test": "jest --no-cache",
     "test:coverage": "npm run test -- --collect-coverage",
     "test:build": "DIST=dist/esm npm run test && DIST=dist/cjs npm run test",
-    "test:pkg": "node scripts/gen-test-pkg.js && cd test-pkg && npm run types && npm run test",
+    "test:pkg": "node scripts/gen-test-pkg.js && cd test-pkg && npm install && npm run types && npm run test",
     "release:pack": "npm run build && cd dist && npm pack",
     "release:publish": "npm run build && cd dist && npm publish",
     "change:add": "npx changeset add",
