@@ -2,9 +2,9 @@
 
 ## 2.0.0
 
-### Major Changes
+- [#4](https://github.com/madeofsun/tiny-guards/pull/4) [`2001715`](https://github.com/madeofsun/tiny-guards/commit/2001715baa4dc810b8c23f9c9f9dff8ef6dcc424)
 
-- [#4](https://github.com/madeofsun/tiny-guards/pull/4) [`2001715`](https://github.com/madeofsun/tiny-guards/commit/2001715baa4dc810b8c23f9c9f9dff8ef6dcc424) Thanks [@madeofsun](https://github.com/madeofsun)! - Breaking changes:
+  Breaking changes:
 
   - non-index modules now use `default` export
   - members of `guards` and `refinement` modules are now split in separate modules
