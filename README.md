@@ -33,7 +33,7 @@ import {
   optional,
   refine,
   shape,
-  TypeOfGuard,
+  Guard,
 } from "tiny-guards";
 
 const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));
@@ -48,7 +48,7 @@ const isUser = shape({
   lastName: optional(isString),
 });
 
-type User = TypeOfGuard<typeof isUser>;
+type User = Guard.Infer<typeof isUser>;
 
 function doSomething(v: unknown) {
   if (isUser(v)) {
