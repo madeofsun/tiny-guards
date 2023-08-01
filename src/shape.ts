@@ -20,7 +20,6 @@ export default function shape<T extends object>(
     }
 
     for (const key in shape) {
-      // @ts-expect-error suppress
       const guard: Guard<unknown> = shape[key];
       // @ts-expect-error suppress
       const value: unknown = v[key];
