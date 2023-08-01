@@ -1,8 +1,4 @@
-import {
-  dev_debug,
-  dev_debug_end,
-  dev_debug_start,
-} from "./internal/dev_debug";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
 import { type Guard, type Narrowing } from "./types";
 
 export default function narrow<T1, T2 extends T1>(
@@ -10,19 +6,19 @@ export default function narrow<T1, T2 extends T1>(
   narrowing: Narrowing<T1, T2>
 ): Guard<T2> {
   return function isNarrowing(v: unknown): v is T2 {
-    dev_debug_start(isNarrowing);
+    dev_log_start(isNarrowing);
 
     if (!guard(v)) {
-      dev_debug(isNarrowing, `guard failed`, v);
+      dev_log(isNarrowing, `guard failed`, v);
       return false;
     }
 
     if (!narrowing(v)) {
-      dev_debug(isNarrowing, `narrowing failed`, v);
+      dev_log(isNarrowing, `narrowing failed`, v);
       return false;
     }
 
-    dev_debug_end(isNarrowing);
+    dev_log_end(isNarrowing);
     return true;
   };
 }

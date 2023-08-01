@@ -1,29 +1,46 @@
 class TinyGuardsError extends Error {}
 
-export function dev_debug(
+let DEV_LOG_ENABLED = true;
+
+export const devLogger = Object.freeze({
+  enable() {
+    DEV_LOG_ENABLED = true;
+  },
+  disable() {
+    DEV_LOG_ENABLED = false;
+  },
+});
+
+export function dev_log(
   anchor: { name: string },
   message: string,
   value: unknown
 ) {
+  if (!DEV_LOG_ENABLED) return;
+
   if (messages.length === 0) {
     v = value;
   }
   messages.push(`[${anchor.name}]: ${message}`);
-  dev_debug_end(anchor);
+  dev_log_end(anchor);
 }
 
 let debugAnchor: unknown = null;
 let v: unknown;
 let messages: string[] = [];
 
-export function dev_debug_start(anchor: { name: string }) {
+export function dev_log_start(anchor: { name: string }) {
+  if (!DEV_LOG_ENABLED) return;
+
   if (!debugAnchor) {
     debugAnchor = anchor;
     messages = [];
   }
 }
 
-export function dev_debug_end(anchor: { name: string }) {
+export function dev_log_end(anchor: { name: string }) {
+  if (!DEV_LOG_ENABLED) return;
+
   if (debugAnchor === anchor) {
     debugAnchor = null;
     if (messages.length > 0) {

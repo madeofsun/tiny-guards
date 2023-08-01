@@ -3,7 +3,7 @@
     "tiny-guards": "file:../dist"
   },
   "scripts": {
-    "types": "tsc -p cjs/jsconfig.json && tsc -p esm/jsconfig.json",
+    "types": "tsc -p cjs/jsconfig.json && tsc -p esm/jsconfig.json && tsc -p ts/tsconfig.json",
     "test": "node cjs/index.js && node esm/index.mjs"
   }
 }

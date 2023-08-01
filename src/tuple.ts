@@ -1,8 +1,4 @@
-import {
-  dev_debug,
-  dev_debug_end,
-  dev_debug_start,
-} from "./internal/dev_debug";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
 import { type Guard } from "./types";
 
 export default function tuple<T1, T2>(
@@ -37,15 +33,15 @@ export default function tuple<T extends unknown[]>(
   ...guards: readonly Guard<unknown>[]
 ): Guard<T> {
   return function isTuple(v: unknown): v is T {
-    dev_debug_start(isTuple);
+    dev_log_start(isTuple);
 
     if (!Array.isArray(v)) {
-      dev_debug(isTuple, `failed - value is not array`, v);
+      dev_log(isTuple, `failed - value is not array`, v);
       return false;
     }
 
     if (v.length !== guards.length) {
-      dev_debug(isTuple, `failed - tuple length must be ${guards.length}`, v);
+      dev_log(isTuple, `failed - tuple length must be ${guards.length}`, v);
       return false;
     }
 
@@ -53,12 +49,12 @@ export default function tuple<T extends unknown[]>(
       const guard = guards[i]!;
       const item = v[i];
       if (!guard(item)) {
-        dev_debug(isTuple, `guard failed at index ${i}`, item);
+        dev_log(isTuple, `guard failed at index ${i}`, item);
         return false;
       }
     }
 
-    dev_debug_end(isTuple);
+    dev_log_end(isTuple);
     return true;
   };
 }
