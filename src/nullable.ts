@@ -1,5 +1,7 @@
-import { isNull } from "./guards.js";
-import { or } from "./or.js";
-import type { Guard } from "./types.js";
+import isNull from "./isNull";
+import or from "./or";
+import { type Guard } from "./types";
 
-export const nullable = <T>(guard: Guard<T>) => or(isNull, guard);
+export default function nullable<T>(guard: Guard<T>) {
+  return or(isNull, guard);
+}

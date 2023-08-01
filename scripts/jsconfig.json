@@ -3,11 +3,11 @@
     "module": "Node16",
     "moduleResolution": "Node16",
     "noUncheckedIndexedAccess": true,
-    "target": "ES2022",
+    "target": "ES2020",
+    "allowJs": true,
     "checkJs": true,
     "strict": true,
-    "lib": ["es2022"],
-    "types": ["@types/node"]
-  },
-  "include": ["./**/*.js"]
+    "lib": ["es2020"],
+    "types": ["node"]
+  }
 }

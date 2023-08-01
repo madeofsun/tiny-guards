@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "target": "ES6",
+    "moduleResolution": "Node",
+    "lib": ["ES6"],
+    "types": [],
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true
+  }
+}

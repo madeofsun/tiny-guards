@@ -1,48 +1,46 @@
-import fs from "node:fs/promises";
+import { URL } from "node:url";
+import fsp from "node:fs/promises";
 import path from "node:path";
 
-import { collectModules } from "./collect-modules.js";
-import { OUT_DIR } from "./constants.js";
-import { generateFiles } from "./generate-files.js";
-import { generateIndex } from "./generate-index.js";
-import { generatePackageJson } from "./generate-package-json.js";
+import { collectModules } from "./lib/collect-modules.js";
+import { OUT_DIR } from "./lib/constants.js";
+import { generateFiles } from "./lib/generate-files.js";
+import { emptyIndex, generateIndex } from "./lib/generate-index.js";
+import { generatePackageJson } from "./lib/generate-package-json.js";
 
-await build();
+build();
 
-async function build() {
+export async function build() {
+  process.chdir(new URL("..", import.meta.url).pathname);
+  const tsConfigPath = "tsconfig.json";
   const [modules, tsConfig] = await Promise.all([
     collectModules(),
-    fs.readFile("tsconfig.json", { encoding: "utf-8" }),
+    fsp.readFile(tsConfigPath, { encoding: "utf-8" }),
     prepareOutDir(),
   ]);
+  try {
+    await generateIndex(modules);
+    await generateFiles(tsConfigPath, tsConfig);
+  } finally {
+    await emptyIndex();
+  }
   await Promise.all([
-    generateFiles("tsconfig.json", tsConfig),
-    generateIndex(modules),
-    generatePackageJson(modules),
-    fs.copyFile("README.md", `${OUT_DIR}/README.md`),
-    fs.copyFile("LICENSE", `${OUT_DIR}/LICENSE`),
+    generatePackageJson(),
+    fsp.copyFile("README.md", `${OUT_DIR}/README.md`),
+    fsp.copyFile("LICENSE", `${OUT_DIR}/LICENSE`),
   ]);
-  await cleanOutDir();
 }
 
 async function prepareOutDir() {
-  await fs.mkdir(OUT_DIR).catch(() => {});
-}
-
-async function cleanOutDir() {
-  const { files } = await fs
-    .readFile(path.resolve(OUT_DIR, "package.json"), {
-      encoding: "utf-8",
-    })
-    .then(JSON.parse);
-
-  const fileSet = new Set(["package.json", "README.md", "LICENSE", ...files]);
-
-  await fs.readdir(OUT_DIR).then((fileNames) => {
-    return Promise.all(
-      fileNames
-        .filter((file) => !fileSet.has(file))
-        .map((file) => fs.rm(path.resolve(OUT_DIR, file)))
-    );
-  });
+  await fsp.mkdir(OUT_DIR).catch(() => null);
+  await fsp.readdir(OUT_DIR).then((fileNames) =>
+    Promise.all(
+      fileNames.map((file) =>
+        fsp.rm(path.resolve(OUT_DIR, file), {
+          recursive: true,
+          force: true,
+        })
+      )
+    )
+  );
 }

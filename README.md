@@ -1,5 +1,8 @@
 # tiny-guards 💂
 
+![npm](https://img.shields.io/npm/v/tiny-guards?logo=npm&color=brightgreen&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftiny-guards)
+![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?labelColor=coverage)
+
 A tiny library for advanced typescript guarding
 
 - 🪶 lightweight

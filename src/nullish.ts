@@ -1,5 +1,8 @@
-import { isNull, isUndefined } from "./guards.js";
-import { or } from "./or.js";
-import type { Guard } from "./types.js";
+import isNull from "./isNull";
+import isUndefined from "./isUndefined";
+import or from "./or";
+import { type Guard } from "./types";
 
-export const nullish = <T>(guard: Guard<T>) => or(isUndefined, isNull, guard);
+export default function nullish<T>(guard: Guard<T>) {
+  return or(isUndefined, isNull, guard);
+}

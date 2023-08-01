@@ -1,0 +1,16 @@
+export const PKG_NAME = "tiny-guards";
+export const IN_DIR = "src";
+export const OUT_DIR = "dist";
+export const ESM_DIR = "esm";
+export const COMMON_DIR = "cjs";
+export const TYPES_DIR = "types";
+export const ESM_EXT = "js";
+export const COMMON_EXT = "cjs";
+export const TYPES_EXT = "d.ts";
+export const IN_INDEX = `index.ts`;
+export const IN_TYPES = `types.ts`;
+export const COMMON_INDEX = `index.${COMMON_EXT}`;
+export const ESM_INDEX = `index.${ESM_EXT}`;
+export const TYPES_INDEX = `index.${TYPES_EXT}`;
+export const TEST_PKG_INDEX_ESM = "test-pkg/esm/index.mjs";
+export const TEST_PKG_INDEX_COMMON = "test-pkg/cjs/index.js";
