@@ -2,14 +2,13 @@ class TinyGuardsError extends Error {}
 
 let DEV_LOG_ENABLED = true;
 
-export const devLogger = Object.freeze({
-  enable() {
-    DEV_LOG_ENABLED = true;
-  },
-  disable() {
-    DEV_LOG_ENABLED = false;
-  },
-});
+export function devLogEnable() {
+  DEV_LOG_ENABLED = true;
+}
+
+export function devLogDisable() {
+  DEV_LOG_ENABLED = false;
+}
 
 export function dev_log(
   anchor: { name: string },

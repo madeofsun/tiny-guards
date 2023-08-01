@@ -18,7 +18,7 @@ Features:
 - added logging of debug info only in `development` mode
   - enabled by NODE_ENV="development"
   - extra code is removed by bundlers when build for "production"
-  - can be disabled with `devLogger.disable()`
+  - can be disabled/enabled with `devLogDisable`/`devLogEnable`
 
 Fixes:
 
