@@ -18,8 +18,8 @@
   - added a new `strict` option for `shape` guard factory
   - added some useful "out of the box" narrowings that can be use with `narrow` guard factory
   - added logging of debug info only in `development` mode
-    - enabled by NODE_ENV="development"
-    - extra code is removed by bundlers when build for "production"
+    - enabled by `NODE_ENV="development"`
+    - extra code is removed by bundlers when build for `production`
     - can be disabled/enabled with `devLogDisable`/`devLogEnable`
 
   Fixes:
