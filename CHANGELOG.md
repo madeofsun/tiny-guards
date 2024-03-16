@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+### Patch Changes
+
+- [#6](https://github.com/madeofsun/tiny-guards/pull/6) [`370e9a4`](https://github.com/madeofsun/tiny-guards/commit/370e9a40c67233c66ca54a0d4cc46f077b766757) Thanks [@madeofsun](https://github.com/madeofsun)! - Fix types
+
 ## 2.0.0
 
 - [#4](https://github.com/madeofsun/tiny-guards/pull/4) [`2001715`](https://github.com/madeofsun/tiny-guards/commit/2001715baa4dc810b8c23f9c9f9dff8ef6dcc424)
