@@ -9,10 +9,10 @@ import { IN_DIR, IN_INDEX, IN_TYPES } from "./constants.js";
  */
 export async function generateIndex(modules) {
   const content = modules.map(
-    (module) => `export { default as ${module} } from "./${module}";\n`
+    (module) => `export { default as ${module} } from "./${module}.js";\n`
   );
 
-  content.push(`export * from "./${IN_TYPES.slice(0, -".ts".length)}"`);
+  content.push(`export * from "./${IN_TYPES.replace(".ts", ".js")}"`);
 
   await fsp.writeFile(path.resolve(IN_DIR, IN_INDEX), content.join());
 }

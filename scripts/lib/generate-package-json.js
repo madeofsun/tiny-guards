@@ -14,7 +14,7 @@ import {
 } from "./constants.js";
 
 /**
- * @returns {Promise<void>}
+ * @returns {Promise<string[]>}
  */
 export async function generatePackageJson() {
   /** @type {Record<string, { types: string, import: string, require: string }>} */
@@ -41,7 +41,14 @@ export async function generatePackageJson() {
   pkg.types = exports["."].types;
   pkg.sideEffects = false;
   pkg.exports = exports;
-  pkg.files = ["package.json", "README.md", "LICENSE", ESM_DIR, COMMON_DIR];
+  pkg.files = [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    ESM_DIR,
+    COMMON_DIR,
+    TYPES_DIR,
+  ];
 
   delete pkg.devDependencies;
   delete pkg.scripts;
@@ -50,4 +57,6 @@ export async function generatePackageJson() {
     `${OUT_DIR}/package.json`,
     JSON.stringify(pkg, undefined, 2)
   );
+
+  return pkg.files;
 }

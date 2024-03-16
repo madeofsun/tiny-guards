@@ -22,6 +22,9 @@ module.exports = {
       },
     ],
   },
+  moduleNameMapper: {
+    "(.*)\\.js$": ["$1.js", "$1.ts"],
+  },
   extensionsToTreatAsEsm: [".ts"],
   coveragePathIgnorePatterns: ["internal/dev_*", "index.ts", "types.ts"],
   coverageThreshold: {

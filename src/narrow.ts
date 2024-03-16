@@ -1,5 +1,5 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
-import { type Guard, type Narrowing } from "./types";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
+import type {Guard, Narrowing} from "./types.js";
 
 export default function narrow<T1, T2 extends T1>(
   guard: Guard<T1>,

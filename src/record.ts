@@ -1,5 +1,5 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
-import { Guard, Narrowing } from "./types";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
+import type {Guard, Narrowing} from "./types.js";
 
 export default function record<K extends string, V>(
   key: Narrowing<string, K>,

@@ -1,11 +1,11 @@
-import isBigInt from "./isBigInt";
-import isBoolean from "./isBoolean";
-import isNull from "./isNull";
-import isNumber from "./isNumber";
-import isString from "./isString";
-import isSymbol from "./isSymbol";
-import isUndefined from "./isUndefined";
-import { Primitive } from "./types";
+import isBigInt from "./isBigInt.js";
+import isBoolean from "./isBoolean.js";
+import isNull from "./isNull.js";
+import isNumber from "./isNumber.js";
+import isString from "./isString.js";
+import isSymbol from "./isSymbol.js";
+import isUndefined from "./isUndefined.js";
+import type {Primitive} from "./types.js";
 
 export default function isPrimitive(v: unknown): v is Primitive {
   return (

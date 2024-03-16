@@ -5,7 +5,7 @@
   "rules": {
     "import/consistent-type-specifier-style": [
       "error",
-      "prefer-inline"
+      "prefer-top-level"
     ],
     "import/no-absolute-path": [
       "error"
@@ -44,7 +44,7 @@
       "rules": {
         "import/extensions": [
           "error",
-          "never"
+          "always"
         ],
         "import/no-anonymous-default-export": [
           "error"

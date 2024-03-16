@@ -1,5 +1,5 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
-import { type Guard } from "./types";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
+import type {Guard} from "./types.js";
 
 export default function literal<T>(literal: T): Guard<T> {
   return function isLiteral(v: unknown): v is T {

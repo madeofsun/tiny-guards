@@ -1,5 +1,5 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
-import { type Guard, type Shape } from "./types";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
+import type {Guard, Shape} from "./types.js";
 
 export default function shape<T extends object>(
   shape: Shape<T>,

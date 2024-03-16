@@ -24,11 +24,23 @@ export async function build() {
   } finally {
     await emptyIndex();
   }
-  await Promise.all([
+  const [pkgFiles] = await Promise.all([
     generatePackageJson(),
     fsp.copyFile("README.md", `${OUT_DIR}/README.md`),
     fsp.copyFile("LICENSE", `${OUT_DIR}/LICENSE`),
   ]);
+  await fsp.readdir(OUT_DIR).then((fileNames) => {
+    for (const name of fileNames) {
+      if (!pkgFiles.includes(name)) {
+        throw new Error(`File miss-match - "${name}"`);
+      }
+    }
+    for (const name of pkgFiles) {
+      if (!fileNames.includes(name)) {
+        throw new Error(`File miss-match - "${name}"`);
+      }
+    }
+  });
 }
 
 async function prepareOutDir() {
