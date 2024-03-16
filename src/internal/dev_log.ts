@@ -1,6 +1,6 @@
 class TinyGuardsError extends Error {}
 
-let DEV_LOG_ENABLED = true;
+let DEV_LOG_ENABLED = false;
 
 export function devLogEnable() {
   DEV_LOG_ENABLED = true;
@@ -45,11 +45,15 @@ export function dev_log_end(anchor: { name: string }) {
     if (messages.length > 0) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      console.error(
-        new TinyGuardsError(`\n${messages.reverse().join("\n")}`),
-        "\nValue:",
-        v
+      console.warn(
+        `DEV ONLY. Tiny Guards report\n${messages.reverse().join("\n")}\nValue:`
       );
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      console.warn(v);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      console.warn(new TinyGuardsError(`^^^`));
     }
   }
 }
