@@ -1,4 +1,4 @@
-import { type Refinement } from "./types";
+import type {Refinement} from "./types.js";
 
 export default function len(len: number): Refinement<{ length: number }> {
   return function isLen(v) {

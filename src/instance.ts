@@ -1,5 +1,5 @@
-import { dev_log, dev_log_start, dev_log_end } from "./internal/dev_log";
-import { type AnyConstructor, type Guard } from "./types";
+import { dev_log, dev_log_start, dev_log_end } from "./internal/dev_log.js";
+import type {AnyConstructor, Guard} from "./types.js";
 
 export default function instance<T>(c: AnyConstructor<T>): Guard<T> {
   return function isInstanceOf(v: unknown): v is T {

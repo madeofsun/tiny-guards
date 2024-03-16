@@ -1,1 +1,1 @@
-export { devLogDisable as default } from "./internal/dev_log";
+export { devLogDisable as default } from "./internal/dev_log.js";

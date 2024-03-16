@@ -20,49 +20,50 @@ import {
  */
 export async function generateFiles(tsConfigPath, tsConfig) {
   await Promise.all([
-    build(prepareConfig(tsConfigPath, tsConfig, { type: "common" })),
-    build(prepareConfig(tsConfigPath, tsConfig, { type: "esm" })),
+    build(prepareConfig(tsConfigPath, tsConfig, { isCommon: true })),
+    build(prepareConfig(tsConfigPath, tsConfig, { isCommon: false })),
   ]);
 }
 
 /**
  * @param {string} tsConfigPath
  * @param {string} tsConfig
- * @param {{ type: "common" | "esm" }} options
- * @returns {ts.ParsedCommandLine}
+ * @param {{isCommon: boolean}} options
+ * @returns {{ config: ts.ParsedCommandLine, options: { isCommon: boolean }}}
  */
-function prepareConfig(tsConfigPath, tsConfig, { type }) {
+function prepareConfig(tsConfigPath, tsConfig, options) {
   const parsed = ts.parseConfigFileTextToJson(tsConfigPath, tsConfig);
 
-  const result = ts.parseJsonConfigFileContent(
+  const config = ts.parseJsonConfigFileContent(
     {
       ...parsed.config,
       compilerOptions: {
         ...parsed.config.compilerOptions,
         noEmit: false,
-        declaration: type === "common",
+        declaration: !options.isCommon,
         declarationDir: `${OUT_DIR}/${TYPES_DIR}`,
-        module: type === "common" ? "CommonJS" : undefined,
-        outDir:
-          type === "common"
-            ? `${OUT_DIR}/${COMMON_DIR}`
-            : `${OUT_DIR}/${ESM_DIR}`,
+        module: !options.isCommon ? "ES6" : "CommonJS",
+        outDir: !options.isCommon
+          ? `${OUT_DIR}/${ESM_DIR}`
+          : `${OUT_DIR}/${COMMON_DIR}`,
       },
     },
     ts.sys,
     ""
   );
 
-  return result;
+  return {
+    config,
+    options,
+  };
 }
 
 /**
- * @param {ts.ParsedCommandLine} config
+ * @param {{config: ts.ParsedCommandLine, options: { isCommon: boolean }}} config
  * @returns {Promise<void>}
  */
-async function build(config) {
+async function build({ config, options: { isCommon } }) {
   const program = ts.createProgram(config.fileNames, config.options);
-  const isCommon = config.options.module === ts.ModuleKind.CommonJS;
 
   /** @type {Promise<void>[]} */
   const writeFilePromises = [];
@@ -76,11 +77,11 @@ async function build(config) {
         if (isCommon) {
           fileName = changeExtension(fileName, "js", COMMON_EXT);
           text = text.replace(
-            /require\("\.(.*)"\)/g,
+            /require\("\.(.*).js"\)/g,
             `require(".$1.${COMMON_EXT}")`
           );
         } else {
-          text = text.replace(/from "\.(.*)"/g, `from ".$1.${ESM_EXT}"`);
+          text = text.replace(/from "\.(.*).js"/g, `from ".$1.${ESM_EXT}"`);
         }
       }
 

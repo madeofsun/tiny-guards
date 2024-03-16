@@ -1,4 +1,4 @@
-import { type Refinement } from "./types";
+import type {Refinement} from "./types.js";
 
 export default function gt(bound: number): Refinement<number> {
   return function isGt(v) {

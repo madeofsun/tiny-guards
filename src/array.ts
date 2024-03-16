@@ -1,5 +1,5 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log";
-import { type Guard, type Refinement } from "./types";
+import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
+import type {Guard, Refinement} from "./types.js";
 
 export default function array<T>(
   guard?: Guard<T>,
