@@ -1,11 +1,11 @@
-import isNumber from "../src/isNumber";
-import isString from "../src/isString";
-import oneOf from "../src/oneOf";
-import optional from "../src/optional";
-import refine from "../src/refine";
-import gt from "../src/gt";
-import maxLen from "../src/maxLen";
-import shape from "../src/shape";
+import { isNumber } from "../src/isNumber";
+import { isString } from "../src/isString";
+import { oneOf } from "../src/oneOf";
+import { optional } from "../src/optional";
+import { refine } from "../src/refine";
+import { gt } from "../src/gt";
+import { maxLen } from "../src/maxLen";
+import { shape } from "../src/shape";
 
 describe(shape.name, () => {
   const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));
@@ -17,13 +17,16 @@ describe(shape.name, () => {
     expect(isEmptyShape({})).toBe(true);
     expect(isEmptyShape({ a: "a" })).toBe(true);
 
-    const isUser = shape({
-      id: isNaturalNumber,
-      username: isShortString,
-      accountType: isAccountType,
-      firstName: optional(isString),
-      lastName: optional(isString),
-    });
+    const isUser = shape(
+      {
+        id: isNaturalNumber,
+        username: isShortString,
+        accountType: isAccountType,
+        firstName: optional(isString),
+        lastName: optional(isString),
+      },
+      { name: "User" }
+    );
 
     expect(isUser({})).toBe(false);
     expect(isUser(() => null)).toBe(false);

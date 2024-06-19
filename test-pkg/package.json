@@ -1,9 +1,10 @@
 {
+  "type": "module",
   "dependencies": {
-    "tiny-guards": "file:../dist"
+    "tiny-guards": "file:.."
   },
   "scripts": {
-    "types": "tsc -p cjs/jsconfig.json && tsc -p esm/jsconfig.json && tsc -p ts/tsconfig.json",
-    "test": "node cjs/index.js && node esm/index.mjs"
+    "test:types": "tsc -p ts/tsconfig.json && tsc -p ts/tsconfig.node16.json",
+    "test:run": "node esm/index.js"
   }
 }

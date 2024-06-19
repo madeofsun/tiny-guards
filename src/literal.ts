@@ -1,16 +1,14 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard} from "./types.js";
+import { tracker } from "./internal/tracker.js";
+import type { Guard } from "./types.js";
 
-export default function literal<T>(literal: T): Guard<T> {
+export function literal<T>(literal: T): Guard<T> {
   return function isLiteral(v: unknown): v is T {
-    dev_log_start(isLiteral);
+    tracker.track();
 
     if (v === literal) {
-      dev_log_end(isLiteral);
-      return true;
+      return tracker.pass();
     }
 
-    dev_log(isLiteral, `failed`, v);
-    return false;
+    return tracker.block(isLiteral, `failed`, v);
   };
 }

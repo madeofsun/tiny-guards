@@ -1,22 +1,20 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Refinement} from "./types.js";
+import { tracker } from "./internal/tracker.js";
+import type { Guard, Refinement } from "./types.js";
 
-export default function array<T>(
+export function array<T>(
   guard?: Guard<T>,
   ...refinements: Refinement<unknown[]>[]
 ): Guard<T[]> {
   return function isArray(v: unknown): v is T[] {
-    dev_log_start(isArray);
+    tracker.track();
 
     if (!Array.isArray(v)) {
-      dev_log(isArray, `failed - value is not array`, v);
-      return false;
+      return tracker.block(isArray, `failed - value is not array`, v);
     }
 
     for (let i = 0; i < refinements.length; i++) {
       if (!refinements[i]!(v)) {
-        dev_log(isArray, `refinements[${i}] failed`, v);
-        return false;
+        return tracker.block(isArray, `refinements[${i}] failed`, v);
       }
     }
 
@@ -24,13 +22,11 @@ export default function array<T>(
       for (let i = 0; i < v.length; i++) {
         const item = v[i];
         if (!guard(item)) {
-          dev_log(isArray, `guard failed at items[${i}]`, item);
-          return false;
+          return tracker.block(isArray, `guard failed at items[${i}]`, item);
         }
       }
     }
 
-    dev_log_end(isArray);
-    return true;
+    return tracker.pass();
   };
 }

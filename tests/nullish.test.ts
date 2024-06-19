@@ -1,5 +1,5 @@
-import isString from "../src/isString";
-import nullish from "../src/nullish";
+import { isString } from "../src/isString";
+import { nullish } from "../src/nullish";
 
 test(nullish.name, () => {
   const isNullOrString = nullish(isString);

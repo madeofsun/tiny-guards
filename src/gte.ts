@@ -1,6 +1,6 @@
-import type {Refinement} from "./types.js";
+import type { Refinement } from "./types.js";
 
-export default function gte(bound: number): Refinement<number> {
+export function gte(bound: number): Refinement<number> {
   return function isGte(v) {
     return v >= bound;
   };

@@ -1,6 +1,6 @@
-import isString from "../src/isString";
-import startsWith from "../src/startsWith";
-import record from "../src/record";
+import { isString } from "../src/isString";
+import { startsWith } from "../src/startsWith";
+import { record } from "../src/record";
 
 test(record.name, () => {
   const symbol = Symbol();

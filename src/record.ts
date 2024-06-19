@@ -1,15 +1,15 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Narrowing} from "./types.js";
+import { tracker } from "./internal/tracker.js";
+import type { Guard, Narrowing } from "./types.js";
 
-export default function record<K extends string, V>(
+export function record<K extends string, V>(
   key: Narrowing<string, K>,
   value: Guard<V>
 ): Guard<Record<K, V>> {
   return function isRecord(v): v is Record<K, V> {
-    dev_log_start(isRecord);
+    tracker.track();
 
     if (typeof v !== "object" || v === null) {
-      dev_log(
+      tracker.block(
         isRecord,
         v === null
           ? `failed - value is "null"`
@@ -21,18 +21,18 @@ export default function record<K extends string, V>(
 
     for (const _key in v) {
       if (!key(_key)) {
-        dev_log(isRecord, `key guard failed at key "${_key}"`, _key);
+        tracker.block(isRecord, `key guard failed at key "${_key}"`, _key);
         return false;
       }
       // @ts-expect-error suppress
       const _value = v[_key];
       if (!value(_value)) {
-        dev_log(isRecord, `value guard failed at key "${_key}"`, _value);
+        tracker.block(isRecord, `value guard failed at key "${_key}"`, _value);
         return false;
       }
     }
 
-    dev_log_end(isRecord);
+    tracker.pass();
     return true;
   };
 }

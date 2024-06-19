@@ -1,6 +1,6 @@
-import type {Refinement} from "./types.js";
+import type { Refinement } from "./types.js";
 
-export default function minLen(len: number): Refinement<{ length: number }> {
+export function minLen(len: number): Refinement<{ length: number }> {
   return function isMinLen(v) {
     return v.length >= len;
   };

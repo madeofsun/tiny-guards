@@ -1,24 +1,21 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Narrowing} from "./types.js";
+import { tracker } from "./internal/tracker.js";
+import type { Guard, Narrowing } from "./types.js";
 
-export default function narrow<T1, T2 extends T1>(
+export function narrow<T1, T2 extends T1>(
   guard: Guard<T1>,
   narrowing: Narrowing<T1, T2>
 ): Guard<T2> {
   return function isNarrowing(v: unknown): v is T2 {
-    dev_log_start(isNarrowing);
+    tracker.track();
 
     if (!guard(v)) {
-      dev_log(isNarrowing, `guard failed`, v);
-      return false;
+      return tracker.block(isNarrowing, `guard failed`, v);
     }
 
     if (!narrowing(v)) {
-      dev_log(isNarrowing, `narrowing failed`, v);
-      return false;
+      return tracker.block(isNarrowing, `narrowing failed`, v);
     }
 
-    dev_log_end(isNarrowing);
-    return true;
+    return tracker.pass();
   };
 }

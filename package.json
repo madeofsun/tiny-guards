@@ -1,15 +1,20 @@
 {
   "name": "tiny-guards",
-  "version": "2.0.3",
+  "version": "3.0.0-alpha.0",
   "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*.js"
+  },
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "node scripts/gen-index.js && tsc",
     "lint": "eslint . --ext .js,.ts",
     "types": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
     "test": "jest --no-cache",
     "test:coverage": "npm run test -- --collect-coverage",
-    "test:build": "DIST=dist/esm npm run test && DIST=dist/cjs npm run test",
-    "test:pkg": "node scripts/gen-test-pkg.js && cd test-pkg && npm install && npm run types && npm run test",
+    "test:build": "DIST=dist npm run test",
+    "test:pkg": "node scripts/gen-test-pkg.js && cd test-pkg && npm install && npm run test:types && npm run test:run",
     "release:pack": "npm run build && cd dist && npm pack",
     "release:publish": "npm run build && cd dist && npm publish",
     "change:add": "npx changeset add",

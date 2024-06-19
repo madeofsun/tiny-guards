@@ -1,5 +1,5 @@
-import isString from "../src/isString";
-import refine from "../src/refine";
+import { isString } from "../src/isString";
+import { refine } from "../src/refine";
 
 test(refine.name, () => {
   const isSpecialString = refine(

@@ -1,6 +1,6 @@
-import narrow from "../src/narrow";
-import isString from "../src/isString";
-import startsWith from "../src/startsWith";
+import { narrow } from "../src/narrow";
+import { isString } from "../src/isString";
+import { startsWith } from "../src/startsWith";
 
 test(narrow.name, () => {
   const isNarrow = narrow(isString, startsWith("$"));

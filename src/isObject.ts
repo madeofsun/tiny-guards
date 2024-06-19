@@ -1,3 +1,3 @@
-export default function isObject(v: unknown): v is object {
+export function isObject(v: unknown): v is object {
   return typeof v === "object" && v !== null;
 }

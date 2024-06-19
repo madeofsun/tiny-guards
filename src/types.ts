@@ -1,3 +1,5 @@
+export type { TinyGuardsError } from "./internal/tracker.js";
+
 export type Guard<T> = (v: unknown) => v is T;
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
