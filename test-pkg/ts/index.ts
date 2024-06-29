@@ -1,44 +1,78 @@
-import {
-  Guard,
-  array,
-  isString,
-  isUppercase,
-  narrow,
-  shape,
-} from "tiny-guards";
-
-type Test<T, Expected> = T extends Expected ? true : false;
-
-const isA = shape({
-  a: isString,
-  b: array(isString),
-});
-
-const a1 = {};
-const a2 = {
-  a: "string",
-  b: ["string"],
-};
-const a3 = {
-  a: "string",
-};
-
-type TestA<T> = Test<T, Guard.Infer<typeof isA>>;
-
-const testA1: TestA<typeof a1> = false;
-const testA2: TestA<typeof a2> = true;
-const testA3: TestA<typeof a3> = false;
-
-const isB = narrow(isString, isUppercase);
-
-const b1 = 0;
-const b2 = true;
-const b3 = "qwe";
-const b4 = "QWE";
-
-type TestB<T> = Test<T, Guard.Infer<typeof isB>>;
-
-const testB1: TestB<typeof b1> = false;
-const testB2: TestB<typeof b2> = false;
-const testB3: TestB<typeof b3> = false;
-const testB4: TestB<typeof b4> = true;
+import { and } from "tiny-guards";
+and satisfies object;
+import { array } from "tiny-guards";
+array satisfies object;
+import { endsWith } from "tiny-guards";
+endsWith satisfies object;
+import { gt } from "tiny-guards";
+gt satisfies object;
+import { gte } from "tiny-guards";
+gte satisfies object;
+import { instance } from "tiny-guards";
+instance satisfies object;
+import { isBigInt } from "tiny-guards";
+isBigInt satisfies object;
+import { isBoolean } from "tiny-guards";
+isBoolean satisfies object;
+import { isCapitalized } from "tiny-guards";
+isCapitalized satisfies object;
+import { isFunction } from "tiny-guards";
+isFunction satisfies object;
+import { isLowercase } from "tiny-guards";
+isLowercase satisfies object;
+import { isNull } from "tiny-guards";
+isNull satisfies object;
+import { isNumber } from "tiny-guards";
+isNumber satisfies object;
+import { isObject } from "tiny-guards";
+isObject satisfies object;
+import { isPrimitive } from "tiny-guards";
+isPrimitive satisfies object;
+import { isString } from "tiny-guards";
+isString satisfies object;
+import { isSymbol } from "tiny-guards";
+isSymbol satisfies object;
+import { isUncapitalized } from "tiny-guards";
+isUncapitalized satisfies object;
+import { isUndefined } from "tiny-guards";
+isUndefined satisfies object;
+import { isUppercase } from "tiny-guards";
+isUppercase satisfies object;
+import { len } from "tiny-guards";
+len satisfies object;
+import { literal } from "tiny-guards";
+literal satisfies object;
+import { lt } from "tiny-guards";
+lt satisfies object;
+import { lte } from "tiny-guards";
+lte satisfies object;
+import { maxLen } from "tiny-guards";
+maxLen satisfies object;
+import { minLen } from "tiny-guards";
+minLen satisfies object;
+import { narrow } from "tiny-guards";
+narrow satisfies object;
+import { nullable } from "tiny-guards";
+nullable satisfies object;
+import { nullish } from "tiny-guards";
+nullish satisfies object;
+import { oneOf } from "tiny-guards";
+oneOf satisfies object;
+import { optional } from "tiny-guards";
+optional satisfies object;
+import { or } from "tiny-guards";
+or satisfies object;
+import { record } from "tiny-guards";
+record satisfies object;
+import { refine } from "tiny-guards";
+refine satisfies object;
+import { shape } from "tiny-guards";
+shape satisfies object;
+import { startsWith } from "tiny-guards";
+startsWith satisfies object;
+import { tinyGuards } from "tiny-guards";
+tinyGuards satisfies object;
+import { tuple } from "tiny-guards";
+tuple satisfies object;
+import { types } from "tiny-guards";
+types satisfies object;

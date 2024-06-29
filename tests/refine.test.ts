@@ -1,4 +1,4 @@
-import { isString } from "../src/isString";
+import { isString } from "../src/is-string";
 import { refine } from "../src/refine";
 
 test(refine.name, () => {

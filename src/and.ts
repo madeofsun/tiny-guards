@@ -1,7 +1,7 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard } from "./types.js";
 
-export function and(): Guard<never>;
+export function and(): never;
 
 export function and<T1>(guard1: Guard<T1>): Guard<T1>;
 
@@ -52,15 +52,19 @@ export function and<T1, T2, T3, T4, T5, T6, T7>(
 
 export function and(...guards: Guard<unknown>[]): Guard<unknown> {
   return function isAnd(v: unknown): v is unknown {
-    tracker.track();
+    context.track();
 
     for (let i = 0; i < guards.length; i++) {
       const guard = guards[i]!;
       if (!guard(v)) {
-        return tracker.block(isAnd, `guard at index "${i}" (${guard.name})`, v);
+        return context.block(
+          isAnd,
+          `value is blocked by guard[${i}] (${guard.name})`,
+          v
+        );
       }
     }
 
-    return tracker.pass();
+    return context.pass();
   };
 }

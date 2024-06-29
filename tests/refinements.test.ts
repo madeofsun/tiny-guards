@@ -3,8 +3,8 @@ import { gte } from "../src/gte";
 import { len } from "../src/len";
 import { lt } from "../src/lt";
 import { lte } from "../src/lte";
-import { maxLen } from "../src/maxLen";
-import { minLen } from "../src/minLen";
+import { maxLen } from "../src/max-len";
+import { minLen } from "../src/min-len";
 
 describe("refinements", () => {
   test(gt.name, () => {

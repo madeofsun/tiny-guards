@@ -1,4 +1,4 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard, Narrowing } from "./types.js";
 
 export function record<K extends string, V>(
@@ -6,10 +6,10 @@ export function record<K extends string, V>(
   value: Guard<V>
 ): Guard<Record<K, V>> {
   return function isRecord(v): v is Record<K, V> {
-    tracker.track();
+    context.track();
 
     if (typeof v !== "object" || v === null) {
-      tracker.block(
+      context.block(
         isRecord,
         v === null
           ? `failed - value is "null"`
@@ -21,18 +21,18 @@ export function record<K extends string, V>(
 
     for (const _key in v) {
       if (!key(_key)) {
-        tracker.block(isRecord, `key guard failed at key "${_key}"`, _key);
+        context.block(isRecord, `key guard failed at key "${_key}"`, _key);
         return false;
       }
       // @ts-expect-error suppress
       const _value = v[_key];
       if (!value(_value)) {
-        tracker.block(isRecord, `value guard failed at key "${_key}"`, _value);
+        context.block(isRecord, `value guard failed at key "${_key}"`, _value);
         return false;
       }
     }
 
-    tracker.pass();
+    context.pass();
     return true;
   };
 }

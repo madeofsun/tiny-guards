@@ -1,5 +1,5 @@
 import { optional } from "../src/optional";
-import { isString } from "../src/isString";
+import { isString } from "../src/is-string";
 
 test(optional.name, () => {
   const isUndefinedOrString = optional(isString);

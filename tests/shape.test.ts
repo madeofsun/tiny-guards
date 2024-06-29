@@ -1,10 +1,10 @@
-import { isNumber } from "../src/isNumber";
-import { isString } from "../src/isString";
-import { oneOf } from "../src/oneOf";
+import { isNumber } from "../src/is-number";
+import { isString } from "../src/is-string";
+import { oneOf } from "../src/one-of";
 import { optional } from "../src/optional";
 import { refine } from "../src/refine";
 import { gt } from "../src/gt";
-import { maxLen } from "../src/maxLen";
+import { maxLen } from "../src/max-len";
 import { shape } from "../src/shape";
 
 describe(shape.name, () => {
@@ -17,16 +17,13 @@ describe(shape.name, () => {
     expect(isEmptyShape({})).toBe(true);
     expect(isEmptyShape({ a: "a" })).toBe(true);
 
-    const isUser = shape(
-      {
-        id: isNaturalNumber,
-        username: isShortString,
-        accountType: isAccountType,
-        firstName: optional(isString),
-        lastName: optional(isString),
-      },
-      { name: "User" }
-    );
+    const isUser = shape({
+      id: isNaturalNumber,
+      username: isShortString,
+      accountType: isAccountType,
+      firstName: optional(isString),
+      lastName: optional(isString),
+    });
 
     expect(isUser({})).toBe(false);
     expect(isUser(() => null)).toBe(false);
@@ -115,7 +112,7 @@ describe(shape.name, () => {
   });
 
   test("strict", () => {
-    const isEmptyShape = shape({}, { strict: true });
+    const isEmptyShape = shape({}, { exact: true });
     expect(isEmptyShape({})).toBe(true);
     expect(isEmptyShape({ a: "a" })).toBe(false);
 
@@ -127,7 +124,7 @@ describe(shape.name, () => {
         firstName: optional(isString),
         lastName: optional(isString),
       },
-      { strict: true }
+      { exact: true }
     );
 
     expect(isUser({})).toBe(false);

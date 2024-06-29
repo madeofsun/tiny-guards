@@ -1,4 +1,4 @@
-import { oneOf } from "../src/oneOf";
+import { oneOf } from "../src/one-of";
 
 test(oneOf.name, () => {
   const isAllowed = oneOf(["a", "b", "c", 1, false]);

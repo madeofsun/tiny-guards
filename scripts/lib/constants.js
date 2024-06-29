@@ -1,6 +1,5 @@
-export const PKG_NAME = "tiny-guards";
-export const IN_DIR = "src";
-export const IN_INDEX = `index.ts`;
-export const IN_TYPES = `types.ts`;
-export const OUT_DIR = "dist";
-export const TEST_PKG_INDEX_ESM = "test-pkg/esm/index.js";
+import pkg from "../../package.json" assert { type: "json" };
+
+export const PKG_NAME = pkg.name;
+export const TEST_PKG_JS_PATH = "test-pkg/esm/index.js";
+export const TEST_PKG_TS_PATH = "test-pkg/ts/index.ts";

@@ -1,5 +1,5 @@
 import { array } from "../src/array";
-import { isString } from "../src/isString";
+import { isString } from "../src/is-string";
 
 describe(array.name, () => {
   test("guard", () => {

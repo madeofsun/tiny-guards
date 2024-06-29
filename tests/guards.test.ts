@@ -1,12 +1,12 @@
-import { isBigInt } from "../src/isBigInt";
-import { isBoolean } from "../src/isBoolean";
-import { isFunction } from "../src/isFunction";
-import { isNull } from "../src/isNull";
-import { isNumber } from "../src/isNumber";
-import { isObject } from "../src/isObject";
-import { isString } from "../src/isString";
-import { isSymbol } from "../src/isSymbol";
-import { isUndefined } from "../src/isUndefined";
+import { isBigInt } from "../src/is-big-int";
+import { isBoolean } from "../src/is-boolean";
+import { isFunction } from "../src/is-function";
+import { isNull } from "../src/is-null";
+import { isNumber } from "../src/is-number";
+import { isObject } from "../src/is-object";
+import { isString } from "../src/is-string";
+import { isSymbol } from "../src/is-symbol";
+import { isUndefined } from "../src/is-undefined";
 
 describe("guards", () => {
   const tests = [

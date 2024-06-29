@@ -1,19 +1,25 @@
-import { tracker } from "./internal/tracker.js";
-import type { Guard, Shape } from "./types.js";
+import { context } from "./internal/context.js";
+import type { Guard } from "./types.js";
+
+export type Shape<S extends object> = {
+  [P in keyof S]: Guard<S[P]>;
+};
 
 export function shape<T extends object>(
   shape: Shape<T>,
-  options?: { name?: string; strict?: boolean }
+  options?: { exact?: boolean }
 ): Guard<T> {
   return function isShape(v: unknown): v is T {
-    tracker.track();
+    context.track();
 
-    if (typeof v !== "function" && (typeof v !== "object" || v === null)) {
-      return tracker.block(
+    if (v === null) {
+      return context.block(isShape, `value is "null"`, v);
+    }
+
+    if (typeof v !== "object" && typeof v !== "function") {
+      return context.block(
         isShape,
-        v === null
-          ? `failed - value is "null"`
-          : `failed - typeof value is not "object" or "function"`,
+        `type of value is not "object" or "function" - ${typeof v}`,
         v
       );
     }
@@ -23,23 +29,22 @@ export function shape<T extends object>(
       // @ts-expect-error suppress
       const value: unknown = v[key];
       if (!guard(value)) {
-        return tracker.block(
+        return context.block(
           isShape,
-          `guard at key "${key}" (${guard.name})`,
+          `block at key "${key}" - guard "${guard.name}"`,
           v
         );
       }
     }
 
-    if (options?.strict) {
+    if (options?.exact) {
       for (const key in v) {
-        // @ts-expect-error suppress
-        if (!shape[key]) {
-          return tracker.block(isShape, `encountered unknown key "${key}"`, v);
+        if (key in shape === false) {
+          return context.block(isShape, `unknown key "${key}"`, v);
         }
       }
     }
 
-    return tracker.pass();
+    return context.pass();
   };
 }

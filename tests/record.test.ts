@@ -1,5 +1,5 @@
-import { isString } from "../src/isString";
-import { startsWith } from "../src/startsWith";
+import { isString } from "../src/is-string";
+import { startsWith } from "../src/starts-with";
 import { record } from "../src/record";
 
 test(record.name, () => {

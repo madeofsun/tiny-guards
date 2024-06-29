@@ -1,4 +1,4 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard } from "./types.js";
 
 export function tuple(): Guard<[]>;
@@ -54,28 +54,28 @@ export function tuple<T extends unknown[]>(
   ...guards: readonly Guard<unknown>[]
 ): Guard<T> {
   return function isTuple(v: unknown): v is T {
-    tracker.track();
+    context.track();
 
     if (!Array.isArray(v)) {
-      return tracker.block(isTuple, `failed - value is not array`, v);
+      return context.block(isTuple, `value is not array`, v);
     }
 
     if (v.length !== guards.length) {
-      return tracker.block(
-        isTuple,
-        `failed - tuple length must be ${guards.length}`,
-        v
-      );
+      return context.block(isTuple, `tuple length must be ${guards.length}`, v);
     }
 
     for (let i = 0; i < guards.length; i++) {
       const guard = guards[i]!;
       const item = v[i];
       if (!guard(item)) {
-        return tracker.block(isTuple, `guard failed at index ${i}`, item);
+        return context.block(
+          isTuple,
+          `item at index ${i} is blocked by guard "${guard.name}"`,
+          item
+        );
       }
     }
 
-    return tracker.pass();
+    return context.pass();
   };
 }

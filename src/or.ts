@@ -1,7 +1,7 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard } from "./types.js";
 
-export function or(): Guard<never>;
+export function or(): never;
 
 export function or<T1>(guard1: Guard<T1>): Guard<T1>;
 
@@ -52,17 +52,15 @@ export function or<T1, T2, T3, T4, T5, T6, T7>(
 
 export function or(...guards: Guard<unknown>[]): Guard<unknown> {
   return function isOr(v: unknown): v is unknown {
-    tracker.track();
+    context.track();
 
     for (let i = 0; i < guards.length; i++) {
       const guard = guards[i]!;
       if (guard(v)) {
-        tracker.pass();
-        return true;
+        return context.pass();
       }
     }
 
-    tracker.block(isOr, `all guards failed`, v);
-    return false;
+    return context.block(isOr, `value is blocked by all guards`, v);
   };
 }

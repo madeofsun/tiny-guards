@@ -1,4 +1,4 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard, Narrowing } from "./types.js";
 
 export function narrow<T1, T2 extends T1>(
@@ -6,16 +6,24 @@ export function narrow<T1, T2 extends T1>(
   narrowing: Narrowing<T1, T2>
 ): Guard<T2> {
   return function isNarrowing(v: unknown): v is T2 {
-    tracker.track();
+    context.track();
 
     if (!guard(v)) {
-      return tracker.block(isNarrowing, `guard failed`, v);
+      return context.block(
+        isNarrowing,
+        `value blocked by guard "${guard.name}"`,
+        v
+      );
     }
 
     if (!narrowing(v)) {
-      return tracker.block(isNarrowing, `narrowing failed`, v);
+      return context.block(
+        isNarrowing,
+        `value is blocked by narrowing "${narrowing.name}"`,
+        v
+      );
     }
 
-    return tracker.pass();
+    return context.pass();
   };
 }

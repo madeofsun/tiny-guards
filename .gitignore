@@ -3,5 +3,5 @@ coverage
 dist
 node_modules
 package
-src/index.ts
 *.tgz
+temp

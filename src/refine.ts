@@ -1,4 +1,4 @@
-import { tracker } from "./internal/tracker.js";
+import { context } from "./internal/context.js";
 import type { Guard, Refinement } from "./types.js";
 
 export function refine<T>(
@@ -6,21 +6,21 @@ export function refine<T>(
   ...refinements: Refinement<T>[]
 ): Guard<T> {
   return function isRefinement(v: unknown): v is T {
-    tracker.track();
+    context.track();
 
     if (!guard(v)) {
-      tracker.block(isRefinement, `guard failed`, v);
+      context.block(isRefinement, `guard failed`, v);
       return false;
     }
 
     for (let i = 0; i < refinements.length; i++) {
       if (!refinements[i]!(v)) {
-        tracker.block(isRefinement, `refinement[${i}] failed`, v);
+        context.block(isRefinement, `refinement[${i}] failed`, v);
         return false;
       }
     }
 
-    tracker.pass();
+    context.pass();
     return true;
   };
 }

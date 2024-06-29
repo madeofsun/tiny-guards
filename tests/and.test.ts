@@ -1,6 +1,6 @@
 import { and } from "../src/and";
-import { isString } from "../src/isString";
-import { isNumber } from "../src/isNumber";
+import { isString } from "../src/is-string";
+import { isNumber } from "../src/is-number";
 import { shape } from "../src/shape";
 
 test(and.name, () => {
