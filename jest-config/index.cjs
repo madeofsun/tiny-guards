@@ -27,6 +27,7 @@ module.exports = {
   },
   extensionsToTreatAsEsm: [".ts"],
   coveragePathIgnorePatterns: [],
+  collectCoverageFrom: ["src/*.ts"],
   coverageThreshold: {
     global: {
       branches: 100,
