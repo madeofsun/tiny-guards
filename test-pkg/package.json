@@ -4,7 +4,7 @@
     "tiny-guards": "file:.."
   },
   "scripts": {
-    "test:types": "tsc -p ts/tsconfig.json && tsc -p ts/tsconfig.node16.json",
-    "test:run": "node esm/index.js"
+    "test:ts": "tsc -p ts/tsconfig.json && tsc -p ts/tsconfig.node16.json",
+    "test:js": "node esm/index.js"
   }
 }

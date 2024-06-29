@@ -15,13 +15,13 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc",
-    "lint": "eslint . --ext .js,.ts",
-    "types": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
-    "test": "jest --no-cache",
-    "test:coverage": "npm run test -- --coverage",
-    "test:build": "DIST=dist npm run test",
-    "test:pkg": "cd test-pkg && npm install && npm run test:types && npm run test:run",
+    "build": "rm -rf dist && tsc --noEmit false",
+    "eslint": "eslint . --ext .js,.ts",
+    "typescript": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
+    "jest": "jest --no-cache",
+    "jest:coverage": "npm run jest -- --coverage",
+    "jest:built": "DIST=dist npm run jest",
+    "test-pkg": "cd test-pkg && npm install && npm run test:ts && npm run test:js",
     "gen:index": "node scripts/gen-index.js",
     "gen:test-pkg": "node scripts/gen-test-pkg.js",
     "change:add": "npx changeset add"

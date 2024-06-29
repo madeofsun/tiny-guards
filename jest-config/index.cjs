@@ -1,4 +1,4 @@
-const plugins = [[require.resolve("./remove-dev-plugin.cjs"), {}]];
+const plugins = [];
 
 if (process.env.DIST) {
   plugins.push([
