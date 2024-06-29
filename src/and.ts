@@ -1,4 +1,5 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard } from "./types.js";
 
 export function and(): never;
@@ -50,7 +51,7 @@ export function and<T1, T2, T3, T4, T5, T6, T7>(
   guard7: Guard<T7>
 ): Guard<T1 & T2 & T3 & T4 & T5 & T6 & T7>;
 
-export function and(...guards: Guard<unknown>[]): Guard<unknown> {
+export function and(...guards: readonly Guard<unknown>[]): Guard<unknown> {
   return function isAnd(v: unknown): v is unknown {
     context.track();
 
@@ -59,7 +60,7 @@ export function and(...guards: Guard<unknown>[]): Guard<unknown> {
       if (!guard(v)) {
         return context.block(
           isAnd,
-          `value is blocked by guard[${i}] (${guard.name})`,
+          `value is blocked by guard "${fnName(guard)}" (index "${i}")`,
           v
         );
       }

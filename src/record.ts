@@ -1,38 +1,41 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard, Narrowing } from "./types.js";
 
 export function record<K extends string, V>(
-  key: Narrowing<string, K>,
-  value: Guard<V>
+  keyGuard: Narrowing<string, K>,
+  valueGuard: Guard<V>
 ): Guard<Record<K, V>> {
   return function isRecord(v): v is Record<K, V> {
     context.track();
 
-    if (typeof v !== "object" || v === null) {
-      context.block(
-        isRecord,
-        v === null
-          ? `failed - value is "null"`
-          : `failed - typeof value is not "object"`,
-        v
-      );
-      return false;
+    if (v === null) {
+      return context.block(isRecord, `value is "null"`, v);
     }
 
-    for (const _key in v) {
-      if (!key(_key)) {
-        context.block(isRecord, `key guard failed at key "${_key}"`, _key);
-        return false;
+    if (typeof v !== "object" || v === null) {
+      return context.block(isRecord, `value is not of type "object"`, v);
+    }
+
+    for (const key in v) {
+      if (!keyGuard(key)) {
+        return context.block(
+          isRecord,
+          `key "${key}" is blocked by guard "${fnName(keyGuard)}"`,
+          key
+        );
       }
       // @ts-expect-error suppress
-      const _value = v[_key];
-      if (!value(_value)) {
-        context.block(isRecord, `value guard failed at key "${_key}"`, _value);
-        return false;
+      const value = v[key];
+      if (!valueGuard(value)) {
+        return context.block(
+          isRecord,
+          `value at key "${key}" is blocked by guard "${fnName(valueGuard)}"`,
+          value
+        );
       }
     }
 
-    context.pass();
-    return true;
+    return context.pass();
   };
 }

@@ -34,9 +34,10 @@ import {
   refine,
   shape,
   Guard,
+  tinyGuards,
 } from "tiny-guards";
 
-const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));
+const isNaturalNumber = refine(isNumber, gt(0), Number.isSafeInteger);
 const isShortString = refine(isString, maxLen(16));
 const isAccountType = oneOf(["reader", "publisher", "moderator"]);
 
@@ -48,12 +49,14 @@ const isUser = shape({
   lastName: optional(isString),
 });
 
-type User = Guard.Infer<typeof isUser>;
+type User = GuardInfer<typeof isUser>;
 
 function doSomething(v: unknown) {
   if (isUser(v)) {
     v.id; // ✅
     v.username; // ✅
+  } else {
+    throw tinyGuards.error;
   }
 }
 ```

@@ -1,4 +1,5 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard } from "./types.js";
 
 export function tuple(): Guard<[]>;
@@ -61,7 +62,11 @@ export function tuple<T extends unknown[]>(
     }
 
     if (v.length !== guards.length) {
-      return context.block(isTuple, `tuple length must be ${guards.length}`, v);
+      return context.block(
+        isTuple,
+        `tuple length must be "${guards.length}"`,
+        v
+      );
     }
 
     for (let i = 0; i < guards.length; i++) {
@@ -70,7 +75,7 @@ export function tuple<T extends unknown[]>(
       if (!guard(item)) {
         return context.block(
           isTuple,
-          `item at index ${i} is blocked by guard "${guard.name}"`,
+          `item at index "${i}" is blocked by guard "${fnName(guard)}"`,
           item
         );
       }

@@ -1,9 +1,10 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard, Refinement } from "./types.js";
 
 export function array<T>(
   guard?: Guard<T>,
-  ...refinements: Refinement<unknown[]>[]
+  ...refinements: readonly Refinement<unknown[]>[]
 ): Guard<T[]> {
   return function isArray(v: unknown): v is T[] {
     context.track();
@@ -17,7 +18,7 @@ export function array<T>(
       if (!refinements[i]!(v)) {
         return context.block(
           isArray,
-          `array blocked by refinement with index "${i}" (${refinement.name})`,
+          `array is blocked by refinement "${fnName(refinement)}" (index "${i}")`,
           v
         );
       }
@@ -29,7 +30,7 @@ export function array<T>(
         if (!guard(item)) {
           return context.block(
             isArray,
-            `item at index "${i}" is blocked by guard "${guard.name}"`,
+            `item at index "${i}" is blocked by guard "${fnName(guard)}"`,
             item
           );
         }

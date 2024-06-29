@@ -1,4 +1,5 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard, Narrowing } from "./types.js";
 
 export function narrow<T1, T2 extends T1>(
@@ -11,7 +12,7 @@ export function narrow<T1, T2 extends T1>(
     if (!guard(v)) {
       return context.block(
         isNarrowing,
-        `value blocked by guard "${guard.name}"`,
+        `value is blocked by guard "${fnName(guard)}"`,
         v
       );
     }
@@ -19,7 +20,7 @@ export function narrow<T1, T2 extends T1>(
     if (!narrowing(v)) {
       return context.block(
         isNarrowing,
-        `value is blocked by narrowing "${narrowing.name}"`,
+        `value is blocked by narrowing "${fnName(narrowing)}"`,
         v
       );
     }

@@ -50,7 +50,7 @@ export function or<T1, T2, T3, T4, T5, T6, T7>(
   guard7: Guard<T7>
 ): Guard<T1 | T2 | T3 | T4 | T5 | T6 | T7>;
 
-export function or(...guards: Guard<unknown>[]): Guard<unknown> {
+export function or(...guards: readonly Guard<unknown>[]): Guard<unknown> {
   return function isOr(v: unknown): v is unknown {
     context.track();
 

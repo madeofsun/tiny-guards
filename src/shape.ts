@@ -1,4 +1,5 @@
 import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils.js";
 import type { Guard } from "./types.js";
 
 export type Shape<S extends object> = {
@@ -19,7 +20,7 @@ export function shape<T extends object>(
     if (typeof v !== "object" && typeof v !== "function") {
       return context.block(
         isShape,
-        `type of value is not "object" or "function" - ${typeof v}`,
+        `value is not of type "object" or "function"`,
         v
       );
     }
@@ -31,8 +32,8 @@ export function shape<T extends object>(
       if (!guard(value)) {
         return context.block(
           isShape,
-          `block at key "${key}" - guard "${guard.name}"`,
-          v
+          `value at key "${key}" is blocked by guard "${fnName(guard)}"`,
+          value
         );
       }
     }

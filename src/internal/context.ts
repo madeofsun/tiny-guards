@@ -4,12 +4,7 @@ export class TinyGuardsError extends Error {
   log: TinyGuardsLog;
 
   constructor(log: TinyGuardsLog) {
-    super(
-      `validation failed\n${log
-        .map(({ message }) => message)
-        .reverse()
-        .join("\n")}`
-    );
+    super(`validation failed\n${log.map(({ message }) => message).join("\n")}`);
     this.name = this.constructor.name;
     this.log = log;
   }
@@ -32,6 +27,7 @@ class Context {
   private trackEnd() {
     this.count -= 1;
     if (this.count === 0 && this.log.length > 0) {
+      this.log.reverse();
       this.error = new TinyGuardsError(this.log);
       this.log = [];
     }
