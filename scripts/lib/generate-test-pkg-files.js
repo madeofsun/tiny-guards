@@ -24,6 +24,10 @@ async function generateEsm(modules) {
 if (typeof ${module} === "undefined") {
   throw new Error("${module} is not defined");
 }
+import { ${module} as ${module + "$2"} } from "${PKG_NAME}/${module}";
+if (typeof ${module + "$2"} === "undefined") {
+  throw new Error("${module + "$2"} is not defined");
+}
 `;
     });
 
@@ -40,6 +44,8 @@ async function generateTs(modules) {
     .map((module) => {
       return `import { ${module} } from "${PKG_NAME}";
 ${module} satisfies object;
+import { ${module} as ${module + "$2"} } from "${PKG_NAME}/${module}";
+${module + "$2"} satisfies object;
 `;
     });
 
