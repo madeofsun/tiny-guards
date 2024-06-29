@@ -26,7 +26,7 @@ module.exports = {
     "(.*)\\.js$": ["$1.js", "$1.ts"],
   },
   extensionsToTreatAsEsm: [".ts"],
-  coveragePathIgnorePatterns: ["internal/dev_*", "index.ts", "types.ts"],
+  coveragePathIgnorePatterns: [],
   coverageThreshold: {
     global: {
       branches: 100,

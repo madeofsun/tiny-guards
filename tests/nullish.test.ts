@@ -1,4 +1,4 @@
-import { isString } from "../src/is-string";
+import { isString } from "../src/isString";
 import { nullish } from "../src/nullish";
 
 test(nullish.name, () => {

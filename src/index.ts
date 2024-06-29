@@ -1,49 +1,39 @@
-export { and } from "./and.js";
-export { array } from "./array.js";
-export { endsWith } from "./endsWith.js";
-export { gt } from "./gt.js";
-export { gte } from "./gte.js";
-export { instance, type AnyConstructor } from "./instance.js";
-export { isBigInt } from "./is-big-int.js";
-export { isBoolean } from "./is-boolean.js";
-export { isCapitalized } from "./is-capitalized.js";
-export { isFunction, type AnyFunction } from "./is-function.js";
-export { isLowercase } from "./is-lowercase.js";
-export { isNull } from "./is-null.js";
-export { isNumber } from "./is-number.js";
-export { isObject } from "./is-object.js";
-export { isPrimitive, type Primitive } from "./is-primitive.js";
-export { isString } from "./is-string.js";
-export { isSymbol } from "./is-symbol.js";
-export { isUncapitalized } from "./is-uncapitalized.js";
-export { isUndefined } from "./is-undefined.js";
-export { isUppercase } from "./is-uppercase.js";
-export { len } from "./len.js";
-export { literal } from "./literal.js";
-export { lt } from "./lt.js";
-export { lte } from "./lte.js";
-export { maxLen } from "./max-len.js";
-export { minLen } from "./min-len.js";
-export { narrow } from "./narrow.js";
-export { nullable } from "./nullable.js";
-export { nullish } from "./nullish.js";
-export { oneOf } from "./one-of.js";
-export { optional } from "./optional.js";
-export { or } from "./or.js";
-export { record } from "./record.js";
-export { refine } from "./refine.js";
-export { shape, type Shape } from "./shape.js";
-export { startsWith } from "./starts-with.js";
-export {
-  tinyGuards,
-  type TinyGuardsError,
-  type TinyGuardsLog,
-} from "./tiny-guards.js";
-export { tuple } from "./tuple.js";
-export {
-  types,
-  type Guard,
-  type GuardInfer,
-  type Narrowing,
-  type Refinement,
-} from "./types.js";
+export * from "./and.js";
+export * from "./array.js";
+export * from "./endsWith.js";
+export * from "./gt.js";
+export * from "./gte.js";
+export * from "./instance.js";
+export * from "./isBigInt.js";
+export * from "./isBoolean.js";
+export * from "./isCapitalized.js";
+export * from "./isFunction.js";
+export * from "./isLowercase.js";
+export * from "./isNull.js";
+export * from "./isNumber.js";
+export * from "./isObject.js";
+export * from "./isPrimitive.js";
+export * from "./isString.js";
+export * from "./isSymbol.js";
+export * from "./isUncapitalized.js";
+export * from "./isUndefined.js";
+export * from "./isUppercase.js";
+export * from "./len.js";
+export * from "./literal.js";
+export * from "./lt.js";
+export * from "./lte.js";
+export * from "./maxLen.js";
+export * from "./minLen.js";
+export * from "./narrow.js";
+export * from "./nullable.js";
+export * from "./nullish.js";
+export * from "./oneOf.js";
+export * from "./optional.js";
+export * from "./or.js";
+export * from "./record.js";
+export * from "./refine.js";
+export * from "./shape.js";
+export * from "./startsWith.js";
+export * from "./tinyGuards.js";
+export * from "./tuple.js";
+export * from "./types.js";

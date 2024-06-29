@@ -1,10 +1,10 @@
-import { isNumber } from "../src/is-number";
-import { isString } from "../src/is-string";
-import { oneOf } from "../src/one-of";
+import { isNumber } from "../src/isNumber";
+import { isString } from "../src/isString";
+import { oneOf } from "../src/oneOf";
 import { optional } from "../src/optional";
 import { refine } from "../src/refine";
 import { gt } from "../src/gt";
-import { maxLen } from "../src/max-len";
+import { maxLen } from "../src/maxLen";
 import { shape } from "../src/shape";
 
 describe(shape.name, () => {

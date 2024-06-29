@@ -1,4 +1,4 @@
-import { isUndefined } from "./is-undefined.js";
+import { isUndefined } from "./isUndefined.js";
 import { or } from "./or.js";
 import type { Guard } from "./types.js";
 

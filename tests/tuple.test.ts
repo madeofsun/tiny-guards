@@ -1,5 +1,5 @@
-import { isNumber } from "../src/is-number";
-import { isString } from "../src/is-string";
+import { isNumber } from "../src/isNumber";
+import { isString } from "../src/isString";
 import { tuple } from "../src/tuple";
 import { instance } from "../src/instance";
 

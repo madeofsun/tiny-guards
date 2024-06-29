@@ -1,10 +1,6 @@
-import { TinyGuardsError, TinyGuardsLog, context } from "./internal/context.js";
+import { context } from "./internal/context.js";
 
-export { type TinyGuardsError, type TinyGuardsLog };
-
-export const tinyGuards: {
-  error: TinyGuardsError;
-} = {
+export const tinyGuards = {
   get error() {
     const error = context.error;
     if (error === null) {

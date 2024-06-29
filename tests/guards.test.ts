@@ -1,12 +1,13 @@
-import { isBigInt } from "../src/is-big-int";
-import { isBoolean } from "../src/is-boolean";
-import { isFunction } from "../src/is-function";
-import { isNull } from "../src/is-null";
-import { isNumber } from "../src/is-number";
-import { isObject } from "../src/is-object";
-import { isString } from "../src/is-string";
-import { isSymbol } from "../src/is-symbol";
-import { isUndefined } from "../src/is-undefined";
+import { isBigInt } from "../src/isBigInt";
+import { isBoolean } from "../src/isBoolean";
+import { isFunction } from "../src/isFunction";
+import { isNull } from "../src/isNull";
+import { isNumber } from "../src/isNumber";
+import { isObject } from "../src/isObject";
+import { isString } from "../src/isString";
+import { isSymbol } from "../src/isSymbol";
+import { isUndefined } from "../src/isUndefined";
+import { isPrimitive } from "../src/isPrimitive";
 
 describe("guards", () => {
   const tests = [
@@ -43,4 +44,15 @@ describe("guards", () => {
       }
     });
   }
+
+  test(isPrimitive.name, () => {
+    const positiveCases = [null, undefined, true, 0, "str", Symbol(), 0n];
+    for (const v of positiveCases) {
+      expect(isPrimitive(v)).toBe(true);
+    }
+    const negativeCases = [() => null, {}];
+    for (const v of negativeCases) {
+      expect(isPrimitive(v)).toBe(false);
+    }
+  });
 });

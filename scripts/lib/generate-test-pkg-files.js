@@ -1,8 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import camelCase from "lodash-es/camelCase.js";
-
 import { PKG_NAME, TEST_PKG_JS_PATH, TEST_PKG_TS_PATH } from "./constants.js";
 
 /**
@@ -19,14 +17,15 @@ export async function generateTestPkgFiles(modules) {
  * @returns {Promise<void>}
  */
 async function generateEsm(modules) {
-  const rows = modules.map((module) => {
-    const identifier = camelCase(module);
-    return `import { ${identifier} } from "${PKG_NAME}";
-if (typeof ${identifier} === "undefined") {
-  throw new Error("${identifier} is not defined");
+  const rows = modules
+    .filter((module) => module !== "types")
+    .map((module) => {
+      return `import { ${module} } from "${PKG_NAME}";
+if (typeof ${module} === "undefined") {
+  throw new Error("${module} is not defined");
 }
 `;
-  });
+    });
 
   await fs.promises.writeFile(path.resolve(TEST_PKG_JS_PATH), rows.join(""));
 }
@@ -36,12 +35,13 @@ if (typeof ${identifier} === "undefined") {
  * @returns {Promise<void>}
  */
 async function generateTs(modules) {
-  const rows = modules.map((module) => {
-    const identifier = camelCase(module);
-    return `import { ${identifier} } from "${PKG_NAME}";
-${identifier} satisfies object;
+  const rows = modules
+    .filter((module) => module !== "types")
+    .map((module) => {
+      return `import { ${module} } from "${PKG_NAME}";
+${module} satisfies object;
 `;
-  });
+    });
 
   await fs.promises.writeFile(path.resolve(TEST_PKG_TS_PATH), rows.join(""));
 }

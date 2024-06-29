@@ -1,5 +1,5 @@
-import { isNull } from "./is-null.js";
-import { isUndefined } from "./is-undefined.js";
+import { isNull } from "./isNull.js";
+import { isUndefined } from "./isUndefined.js";
 import { or } from "./or.js";
 import type { Guard } from "./types.js";
 
