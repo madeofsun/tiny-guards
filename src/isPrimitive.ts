@@ -5,7 +5,7 @@ import { isNumber } from "./isNumber.js";
 import { isString } from "./isString.js";
 import { isSymbol } from "./isSymbol.js";
 import { isUndefined } from "./isUndefined.js";
-import { Primitive } from "./types.js";
+import type { Primitive } from "./types.js";
 
 export function isPrimitive(v: unknown): v is Primitive {
   return (

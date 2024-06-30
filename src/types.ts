@@ -1,4 +1,5 @@
-import { TinyGuardsError, TinyGuardsLog } from "./internal/context.js";
+import { TinyGuardsError } from "./internal/context.js";
+import type { TinyGuardsLog } from "./internal/context.js";
 
 export { type TinyGuardsError, type TinyGuardsLog };
 
