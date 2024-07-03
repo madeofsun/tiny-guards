@@ -1,4 +1,4 @@
-[object global]import { and } from "tiny-guards";
+import { and } from "tiny-guards";
 if (typeof and === "undefined") {
   throw new Error("and is not defined");
 }
