@@ -1,20 +1,42 @@
-export type GuardsLog = { message: string; value: unknown }[];
+import type {
+  ComplexGuard,
+  Guard,
+  GuardLog,
+  GuardError as IGuardError,
+} from "../types.js";
 
-export class GuardsError extends Error {
-  log: GuardsLog;
+import { fnName } from "./utils.js";
 
-  constructor(log: GuardsLog) {
+class GuardError extends Error implements IGuardError {
+  log: GuardLog;
+
+  constructor(log: GuardLog) {
     super(`validation failed\n${log.map(({ message }) => message).join("\n")}`);
     this.name = this.constructor.name;
     this.log = log;
   }
 }
 
+export function complexGuard<T>(guard: Guard<T>) {
+  Object.defineProperty(guard, "error", {
+    get() {
+      const error = context.error;
+      if (error === null) {
+        throw new Error(
+          `Invalid usage of "${fnName(guard)}.error" - last guard execution has completed successfully.`
+        );
+      }
+      return error;
+    },
+  });
+  return guard as ComplexGuard<T>;
+}
+
 class Context {
   private count = 0;
-  private log: GuardsLog = [];
+  private log: GuardLog = [];
 
-  error: null | GuardsError = null;
+  error: null | GuardError = null;
 
   track() {
     if (this.count === 0) {
@@ -28,7 +50,7 @@ class Context {
     this.count -= 1;
     if (this.count === 0 && this.log.length > 0) {
       this.log.reverse();
-      this.error = new GuardsError(this.log);
+      this.error = new GuardError(this.log);
       this.log = [];
     }
   }

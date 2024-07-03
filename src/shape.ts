@@ -1,6 +1,6 @@
-import { context } from "./internal/context.js";
+import { complexGuard, context } from "./internal/context.js";
 import { fnName } from "./internal/utils.js";
-import type { Guard } from "./types.js";
+import type { ComplexGuard, Guard } from "./types.js";
 
 export type Shape<S extends object> = {
   [P in keyof S]: Guard<S[P]>;
@@ -9,8 +9,8 @@ export type Shape<S extends object> = {
 export function shape<T extends object>(
   shape: Shape<T>,
   options?: { exact?: boolean }
-): Guard<T> {
-  return function isShape(v: unknown): v is T {
+): ComplexGuard<T> {
+  return complexGuard(function isShape(v: unknown): v is T {
     context.track();
 
     if (v === null) {
@@ -47,5 +47,5 @@ export function shape<T extends object>(
     }
 
     return context.pass();
-  };
+  });
 }

@@ -57,7 +57,7 @@ function doSomething(v: unknown) {
     v.username; // ✅
   } else {
     // if you need details
-    tinyGuards.error;
+    isUser.error;
     // TinyGuardsError: validation failed
     // [isShape]: value at key "id" is blocked by guard "isRefinement"
     // [isRefinement]: value is blocked by refinement "isGt" (index "0")

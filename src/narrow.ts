@@ -1,12 +1,12 @@
-import { context } from "./internal/context.js";
+import { complexGuard, context } from "./internal/context.js";
 import { fnName } from "./internal/utils.js";
-import type { Guard, Narrowing } from "./types.js";
+import type { ComplexGuard, Guard, Narrowing } from "./types.js";
 
 export function narrow<T1, T2 extends T1>(
   guard: Guard<T1>,
   narrowing: Narrowing<T1, T2>
-): Guard<T2> {
-  return function isNarrowing(v: unknown): v is T2 {
+): ComplexGuard<T2> {
+  return complexGuard(function isNarrowing(v: unknown): v is T2 {
     context.track();
 
     if (!guard(v)) {
@@ -26,5 +26,5 @@ export function narrow<T1, T2 extends T1>(
     }
 
     return context.pass();
-  };
+  });
 }

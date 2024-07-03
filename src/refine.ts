@@ -1,12 +1,12 @@
-import { context } from "./internal/context.js";
+import { complexGuard, context } from "./internal/context.js";
 import { fnName } from "./internal/utils.js";
-import type { Guard, Refinement } from "./types.js";
+import type { ComplexGuard, Guard, Refinement } from "./types.js";
 
 export function refine<T>(
   guard: Guard<T>,
   ...refinements: readonly Refinement<T>[]
-): Guard<T> {
-  return function isRefinement(v: unknown): v is T {
+): ComplexGuard<T> {
+  return complexGuard(function isRefinement(v: unknown): v is T {
     context.track();
 
     if (!guard(v)) {
@@ -29,5 +29,5 @@ export function refine<T>(
     }
 
     return context.pass();
-  };
+  });
 }

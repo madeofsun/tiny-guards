@@ -1,28 +1,28 @@
-import { context } from "./internal/context.js";
+import { complexGuard, context } from "./internal/context.js";
 import { fnName } from "./internal/utils.js";
-import type { Guard } from "./types.js";
+import type { ComplexGuard, Guard } from "./types.js";
 
-export function tuple(): Guard<[]>;
+export function tuple(): ComplexGuard<[]>;
 
-export function tuple<T1>(guard1: Guard<T1>): Guard<[T1]>;
+export function tuple<T1>(guard1: Guard<T1>): ComplexGuard<[T1]>;
 
 export function tuple<T1, T2>(
   guard1: Guard<T1>,
   guard2: Guard<T2>
-): Guard<[T1, T2]>;
+): ComplexGuard<[T1, T2]>;
 
 export function tuple<T1, T2, T3>(
   guard1: Guard<T1>,
   guard2: Guard<T2>,
   guard3: Guard<T3>
-): Guard<[T1, T2, T3]>;
+): ComplexGuard<[T1, T2, T3]>;
 
 export function tuple<T1, T2, T3, T4>(
   guard1: Guard<T1>,
   guard2: Guard<T2>,
   guard3: Guard<T3>,
   guard4: Guard<T4>
-): Guard<[T1, T2, T3, T4]>;
+): ComplexGuard<[T1, T2, T3, T4]>;
 
 export function tuple<T1, T2, T3, T4, T5>(
   guard1: Guard<T1>,
@@ -30,7 +30,7 @@ export function tuple<T1, T2, T3, T4, T5>(
   guard3: Guard<T3>,
   guard4: Guard<T4>,
   guard5: Guard<T5>
-): Guard<[T1, T2, T3, T4, T5]>;
+): ComplexGuard<[T1, T2, T3, T4, T5]>;
 
 export function tuple<T1, T2, T3, T4, T5, T6>(
   guard1: Guard<T1>,
@@ -39,7 +39,7 @@ export function tuple<T1, T2, T3, T4, T5, T6>(
   guard4: Guard<T4>,
   guard5: Guard<T5>,
   guard6: Guard<T6>
-): Guard<[T1, T2, T3, T4, T5, T6]>;
+): ComplexGuard<[T1, T2, T3, T4, T5, T6]>;
 
 export function tuple<T1, T2, T3, T4, T5, T6, T7>(
   guard1: Guard<T1>,
@@ -49,12 +49,12 @@ export function tuple<T1, T2, T3, T4, T5, T6, T7>(
   guard5: Guard<T5>,
   guard6: Guard<T6>,
   guard7: Guard<T7>
-): Guard<[T1, T2, T3, T4, T5, T6, T7]>;
+): ComplexGuard<[T1, T2, T3, T4, T5, T6, T7]>;
 
 export function tuple<T extends unknown[]>(
   ...guards: readonly Guard<unknown>[]
-): Guard<T> {
-  return function isTuple(v: unknown): v is T {
+): ComplexGuard<T> {
+  return complexGuard(function isTuple(v: unknown): v is T {
     context.track();
 
     if (!Array.isArray(v)) {
@@ -82,5 +82,5 @@ export function tuple<T extends unknown[]>(
     }
 
     return context.pass();
-  };
+  });
 }

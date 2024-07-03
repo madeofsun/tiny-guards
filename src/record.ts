@@ -1,12 +1,12 @@
-import { context } from "./internal/context.js";
+import { complexGuard, context } from "./internal/context.js";
 import { fnName } from "./internal/utils.js";
-import type { Guard, Narrowing } from "./types.js";
+import type { ComplexGuard, Guard, Narrowing } from "./types.js";
 
 export function record<K extends string, V>(
   keyGuard: Narrowing<string, K>,
   valueGuard: Guard<V>
-): Guard<Record<K, V>> {
-  return function isRecord(v): v is Record<K, V> {
+): ComplexGuard<Record<K, V>> {
+  return complexGuard(function isRecord(v): v is Record<K, V> {
     context.track();
 
     if (v === null) {
@@ -37,5 +37,5 @@ export function record<K extends string, V>(
     }
 
     return context.pass();
-  };
+  });
 }

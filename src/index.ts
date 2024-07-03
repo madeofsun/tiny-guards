@@ -1,7 +1,5 @@
 export * from "./types.js";
 
-export * from "./guards.js";
-
 export * from "./and.js";
 export * from "./array.js";
 export * from "./endsWith.js";
