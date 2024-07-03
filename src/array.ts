@@ -15,7 +15,7 @@ export function array<T>(
 
     for (let i = 0; i < refinements.length; i++) {
       const refinement = refinements[i]!;
-      if (!refinements[i]!(v)) {
+      if (!refinement(v)) {
         return context.block(
           isArray,
           `array is blocked by refinement "${fnName(refinement)}" (index "${i}")`,

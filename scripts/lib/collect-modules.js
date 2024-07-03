@@ -4,6 +4,9 @@ import path from "node:path";
 export async function collectModules() {
   const files = await fsp.readdir(path.resolve("src"), null);
   return files
-    .filter((file) => file.endsWith(".ts") && file !== "index.ts")
+    .filter(
+      (file) =>
+        file.endsWith(".ts") && file !== "index.ts" && file !== "guards.ts"
+    )
     .map((file) => path.basename(file, ".ts"));
 }

@@ -31,7 +31,10 @@ if (typeof ${module + "$2"} === "undefined") {
 `;
     });
 
-  await fs.promises.writeFile(path.resolve(TEST_PKG_JS_PATH), rows.join(""));
+  await fs.promises.writeFile(
+    path.resolve(TEST_PKG_JS_PATH),
+    global + rows.join("")
+  );
 }
 
 /**

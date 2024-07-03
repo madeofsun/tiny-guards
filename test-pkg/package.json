@@ -5,6 +5,6 @@
   },
   "scripts": {
     "test:ts": "tsc -p ts/tsconfig.json && tsc -p ts/tsconfig.node16.json",
-    "test:js": "node esm/index.js"
+    "test:js": "node esm/index.js && node esm/extra.js"
   }
 }

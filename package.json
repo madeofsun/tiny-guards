@@ -18,6 +18,7 @@
     "build": "rm -rf dist && tsc --noEmit false",
     "eslint": "eslint . --ext .js,.ts",
     "typescript": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
+    "test": "jest --no-cache",
     "jest": "jest --no-cache",
     "jest:coverage": "npm run jest -- --coverage",
     "jest:built": "DIST=dist npm run jest",

@@ -1,9 +1,9 @@
-export type TinyGuardsLog = { message: string; value: unknown }[];
+export type GuardsLog = { message: string; value: unknown }[];
 
-export class TinyGuardsError extends Error {
-  log: TinyGuardsLog;
+export class GuardsError extends Error {
+  log: GuardsLog;
 
-  constructor(log: TinyGuardsLog) {
+  constructor(log: GuardsLog) {
     super(`validation failed\n${log.map(({ message }) => message).join("\n")}`);
     this.name = this.constructor.name;
     this.log = log;
@@ -12,9 +12,9 @@ export class TinyGuardsError extends Error {
 
 class Context {
   private count = 0;
-  private log: TinyGuardsLog = [];
+  private log: GuardsLog = [];
 
-  error: null | TinyGuardsError = null;
+  error: null | GuardsError = null;
 
   track() {
     if (this.count === 0) {
@@ -28,7 +28,7 @@ class Context {
     this.count -= 1;
     if (this.count === 0 && this.log.length > 0) {
       this.log.reverse();
-      this.error = new TinyGuardsError(this.log);
+      this.error = new GuardsError(this.log);
       this.log = [];
     }
   }

@@ -5,8 +5,19 @@ import { isNumber } from "./isNumber.js";
 import { isString } from "./isString.js";
 import { isSymbol } from "./isSymbol.js";
 import { isUndefined } from "./isUndefined.js";
-import type { Primitive } from "./types.js";
 
+export type Primitive =
+  | string
+  | number
+  | bigint
+  | boolean
+  | undefined
+  | symbol
+  | null;
+
+/**
+ * https://developer.mozilla.org/en-US/docs/Glossary/Primitive
+ */
 export function isPrimitive(v: unknown): v is Primitive {
   return (
     isString(v) ||

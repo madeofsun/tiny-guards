@@ -1,4 +1,4 @@
-import { and } from "tiny-guards";
+[object global]import { and } from "tiny-guards";
 if (typeof and === "undefined") {
   throw new Error("and is not defined");
 }
@@ -285,14 +285,6 @@ if (typeof startsWith === "undefined") {
 import { startsWith as startsWith$2 } from "tiny-guards/startsWith";
 if (typeof startsWith$2 === "undefined") {
   throw new Error("startsWith$2 is not defined");
-}
-import { tinyGuards } from "tiny-guards";
-if (typeof tinyGuards === "undefined") {
-  throw new Error("tinyGuards is not defined");
-}
-import { tinyGuards as tinyGuards$2 } from "tiny-guards/tinyGuards";
-if (typeof tinyGuards$2 === "undefined") {
-  throw new Error("tinyGuards$2 is not defined");
 }
 import { tuple } from "tiny-guards";
 if (typeof tuple === "undefined") {
