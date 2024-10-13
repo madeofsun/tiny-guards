@@ -1,5 +1,33 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- [#10](https://github.com/madeofsun/tiny-guards/pull/10) [`de6eff3`](https://github.com/madeofsun/tiny-guards/commit/de6eff35884c5ef1968ab9cd3290df1e467edb9b) Thanks [@madeofsun](https://github.com/madeofsun)! - `Dev log` feature is replaced with `WithError` feature
+
+  Example:
+
+  ```ts
+  import { array, shape, isString, tinyGuards } from "tiny-guards";
+
+  const isData = shape({
+    values: array(isString),
+  });
+
+  if (isData(v)) {
+    v.values; // ✅
+  } else {
+    // if you need details
+    isData.error;
+    // TinyGuardsError: validation failed
+    // [shape]: value at key "values" is blocked by guard "array"
+    // [array]: item at index "1" is blocked by guard "isString"
+  }
+  ```
+
+- [#10](https://github.com/madeofsun/tiny-guards/pull/10) [`de6eff3`](https://github.com/madeofsun/tiny-guards/commit/de6eff35884c5ef1968ab9cd3290df1e467edb9b) Thanks [@madeofsun](https://github.com/madeofsun)! - `Guard.Infer` is replaced with `GuardInfer`
+
 ## 2.0.3
 
 ## 2.0.2
