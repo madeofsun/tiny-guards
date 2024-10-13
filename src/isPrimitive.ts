@@ -1,13 +1,14 @@
-import isBigInt from "./isBigInt.js";
-import isBoolean from "./isBoolean.js";
-import isNull from "./isNull.js";
-import isNumber from "./isNumber.js";
-import isString from "./isString.js";
-import isSymbol from "./isSymbol.js";
-import isUndefined from "./isUndefined.js";
-import type {Primitive} from "./types.js";
+import { isBigInt } from "./isBigInt.js";
+import { isBoolean } from "./isBoolean.js";
+import { isNull } from "./isNull.js";
+import { isNumber } from "./isNumber.js";
+import { isString } from "./isString.js";
+import { isSymbol } from "./isSymbol.js";
+import { isUndefined } from "./isUndefined.js";
+import { p } from "./p.js";
+import type { Primitive } from "./types.js";
 
-export default function isPrimitive(v: unknown): v is Primitive {
+export const isPrimitive = p("isPrimitive", (v: unknown): v is Primitive => {
   return (
     isString(v) ||
     isNumber(v) ||
@@ -17,4 +18,4 @@ export default function isPrimitive(v: unknown): v is Primitive {
     isSymbol(v) ||
     isNull(v)
   );
-}
+});

@@ -1,7 +1,6 @@
-import type {Refinement} from "./types.js";
+import { p } from "./p.js";
+import type { Refinement } from "./types.js";
 
-export default function gte(bound: number): Refinement<number> {
-  return function isGte(v) {
-    return v >= bound;
-  };
+export function gte(bound: number): Refinement<number> {
+  return p("gte", (v) => v >= bound);
 }

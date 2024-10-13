@@ -1,10 +1,12 @@
-import isString from "../src/isString";
-import nullable from "../src/nullable";
+import { isString } from "../src/isString";
+import { nullable } from "../src/nullable";
 
 test(nullable.name, () => {
-  const isNullOrString = nullable(isString);
-  expect(isNullOrString("abc")).toBe(true);
-  expect(isNullOrString("")).toBe(true);
-  expect(isNullOrString(null)).toBe(true);
-  expect(isNullOrString(0)).toBe(false);
+  const isNullable = nullable(isString);
+  expect(isNullable("abc")).toBe(true);
+  expect(isNullable("")).toBe(true);
+  expect(isNullable(null)).toBe(true);
+  expect(isNullable(0)).toBe(false);
+
+  expect(isNullable.name).toBe("or(isNull,isString)");
 });

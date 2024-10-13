@@ -1,26 +1,33 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Refinement} from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Refinement, WithError } from "./types.js";
 
-export default function refine<T>(
+export function refine<T>(
   guard: Guard<T>,
-  ...refinements: Refinement<T>[]
-): Guard<T> {
-  return function isRefinement(v: unknown): v is T {
-    dev_log_start(isRefinement);
+  ...refinements: readonly Refinement<T>[]
+): WithError<Guard<T>> {
+  function isRefinement(v: unknown): v is T {
+    context.track();
 
     if (!guard(v)) {
-      dev_log(isRefinement, `guard failed`, v);
-      return false;
+      return context.block(
+        isRefinement,
+        `value is blocked by guard "${fnName(guard)}"`
+      );
     }
 
     for (let i = 0; i < refinements.length; i++) {
-      if (!refinements[i]!(v)) {
-        dev_log(isRefinement, `refinement[${i}] failed`, v);
-        return false;
+      const refinement = refinements[i]!;
+      if (!refinement(v)) {
+        return context.block(
+          isRefinement,
+          `value is blocked by refinement "${fnName(refinement)}" (index "${i}")`
+        );
       }
     }
 
-    dev_log_end(isRefinement);
-    return true;
-  };
+    return context.pass();
+  }
+
+  return context.withError(isRefinement, "refine");
 }

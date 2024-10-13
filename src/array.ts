@@ -1,22 +1,25 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Refinement} from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Refinement, WithError } from "./types.js";
 
-export default function array<T>(
+export function array<T>(
   guard?: Guard<T>,
-  ...refinements: Refinement<unknown[]>[]
-): Guard<T[]> {
-  return function isArray(v: unknown): v is T[] {
-    dev_log_start(isArray);
+  ...refinements: readonly Refinement<unknown[]>[]
+): WithError<Guard<T[]>> {
+  function isArray(v: unknown): v is T[] {
+    context.track();
 
     if (!Array.isArray(v)) {
-      dev_log(isArray, `failed - value is not array`, v);
-      return false;
+      return context.block(isArray, `value is not array`);
     }
 
     for (let i = 0; i < refinements.length; i++) {
-      if (!refinements[i]!(v)) {
-        dev_log(isArray, `refinements[${i}] failed`, v);
-        return false;
+      const refinement = refinements[i]!;
+      if (!refinement(v)) {
+        return context.block(
+          isArray,
+          `array is blocked by refinement "${fnName(refinement)}" (index "${i}")`
+        );
       }
     }
 
@@ -24,13 +27,16 @@ export default function array<T>(
       for (let i = 0; i < v.length; i++) {
         const item = v[i];
         if (!guard(item)) {
-          dev_log(isArray, `guard failed at items[${i}]`, item);
-          return false;
+          return context.block(
+            isArray,
+            `item at index "${i}" is blocked by guard "${fnName(guard)}"`
+          );
         }
       }
     }
 
-    dev_log_end(isArray);
-    return true;
-  };
+    return context.pass();
+  }
+
+  return context.withError(isArray, "array");
 }

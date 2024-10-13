@@ -1,5 +1,5 @@
-import array from "../src/array";
-import isString from "../src/isString";
+import { array } from "../src/array";
+import { isString } from "../src/isString";
 
 describe(array.name, () => {
   test("guard", () => {
@@ -11,6 +11,13 @@ describe(array.name, () => {
     expect(isStringArray(null)).toBe(false);
     expect(isStringArray(undefined)).toBe(false);
     expect(isStringArray("")).toBe(false);
+
+    expect(isStringArray.name).toBe("array");
+
+    expect(() => {
+      isStringArray(1);
+      throw isStringArray.error;
+    }).toThrow("validation failed\n[array]");
   });
 
   test("refinement", () => {

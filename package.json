@@ -2,18 +2,30 @@
   "name": "tiny-guards",
   "version": "2.0.3",
   "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  },
   "scripts": {
-    "build": "node scripts/build.js",
-    "lint": "eslint . --ext .js,.ts",
-    "types": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
+    "build": "rm -rf dist && tsc --noEmit false",
+    "eslint": "eslint . --ext .js,.ts",
+    "typescript": "tsc && tsc -p tests/tsconfig.json && tsc -p scripts/jsconfig.json && tsc -p jest-config/jsconfig.json",
     "test": "jest --no-cache",
-    "test:coverage": "npm run test -- --collect-coverage",
-    "test:build": "DIST=dist/esm npm run test && DIST=dist/cjs npm run test",
-    "test:pkg": "node scripts/gen-test-pkg.js && cd test-pkg && npm install && npm run types && npm run test",
-    "release:pack": "npm run build && cd dist && npm pack",
-    "release:publish": "npm run build && cd dist && npm publish",
-    "change:add": "npx changeset add",
-    "prepack": "echo '\nUse `release:*` scripts \n' && exit 1"
+    "jest": "jest --no-cache",
+    "jest:coverage": "npm run jest -- --coverage",
+    "jest:built": "DIST=dist npm run jest",
+    "test-pkg": "cd test-pkg && npm install && npm run test:ts && npm run test:js",
+    "gen:index": "node scripts/gen-index.js",
+    "gen:test-pkg": "node scripts/gen-test-pkg.js",
+    "change:add": "npx changeset add"
   },
   "devDependencies": {
     "@changesets/cli": "2.27.1",
@@ -24,14 +36,15 @@
     "@typescript-eslint/eslint-plugin": "7.2.0",
     "@typescript-eslint/parser": "7.2.0",
     "@types/jest": "29.5.12",
-    "@types/node": "^16.0.0",
+    "@types/node": "^20.0.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
     "jest": "29.7.0",
+    "lodash-es": "4.17.21",
     "prettier": "3.2.5",
-    "typescript": "5.4.2",
-    "ts-node": "10.9.2"
+    "typescript": "5.5.4",
+    "ajv": "^8.17.1"
   },
   "keywords": [
     "typescript",

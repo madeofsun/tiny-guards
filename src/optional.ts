@@ -1,7 +1,7 @@
-import isUndefined from "./isUndefined.js";
-import or from "./or.js";
+import { isUndefined } from "./isUndefined.js";
+import { or } from "./or.js";
 import type { Guard } from "./types.js";
 
-export default function optional<T>(guard: Guard<T>) {
+export function optional<T>(guard: Guard<T>) {
   return or(isUndefined, guard);
 }

@@ -1,22 +1,23 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Shape} from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Shape, WithError } from "./types.js";
 
-export default function shape<T extends object>(
+export function shape<T extends object>(
   shape: Shape<T>,
   options?: { strict?: boolean }
-): Guard<T> {
-  return function isShape(v: unknown): v is T {
-    dev_log_start(isShape);
+): WithError<Guard<T>> {
+  function isShape(v: unknown): v is T {
+    context.track();
 
-    if (typeof v !== "function" && (typeof v !== "object" || v === null)) {
-      dev_log(
+    if (v === null) {
+      return context.block(isShape, `value is "null"`);
+    }
+
+    if (typeof v !== "object" && typeof v !== "function") {
+      return context.block(
         isShape,
-        v === null
-          ? `failed - value is "null"`
-          : `failed - typeof value is not "object" or "function"`,
-        v
+        `value is not of type "object" or "function"`
       );
-      return false;
     }
 
     for (const key in shape) {
@@ -24,22 +25,23 @@ export default function shape<T extends object>(
       // @ts-expect-error suppress
       const value: unknown = v[key];
       if (!guard(value)) {
-        dev_log(isShape, `guard failed at key "${key}"`, value);
-        return false;
+        return context.block(
+          isShape,
+          `value at key "${key}" is blocked by guard "${fnName(guard)}"`
+        );
       }
     }
 
     if (options?.strict) {
       for (const key in v) {
-        // @ts-expect-error suppress
-        if (!shape[key]) {
-          dev_log(isShape, `encountered unknown key "${key}"`, v);
-          return false;
+        if (key in shape === false) {
+          return context.block(isShape, `unknown key "${key}"`);
         }
       }
     }
 
-    dev_log_end(isShape);
-    return true;
-  };
+    return context.pass();
+  }
+
+  return context.withError(isShape, "shape");
 }

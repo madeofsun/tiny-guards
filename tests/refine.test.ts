@@ -1,5 +1,5 @@
-import isString from "../src/isString";
-import refine from "../src/refine";
+import { isString } from "../src/isString";
+import { refine } from "../src/refine";
 
 test(refine.name, () => {
   const isSpecialString = refine(
@@ -15,4 +15,6 @@ test(refine.name, () => {
   expect(isSpecialString("aaa")).toBe(false);
   expect(isSpecialString("aaaa")).toBe(true);
   expect(isSpecialString("aaaaa")).toBe(false);
+
+  expect(isSpecialString.name).toBe("refine");
 });

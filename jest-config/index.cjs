@@ -1,4 +1,4 @@
-const plugins = [[require.resolve("./remove-dev-plugin.cjs"), {}]];
+const plugins = [];
 
 if (process.env.DIST) {
   plugins.push([
@@ -26,7 +26,8 @@ module.exports = {
     "(.*)\\.js$": ["$1.js", "$1.ts"],
   },
   extensionsToTreatAsEsm: [".ts"],
-  coveragePathIgnorePatterns: ["internal/dev_*", "index.ts", "types.ts"],
+  coveragePathIgnorePatterns: [],
+  collectCoverageFrom: ["src/*.ts"],
   coverageThreshold: {
     global: {
       branches: 100,

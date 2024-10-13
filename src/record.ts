@@ -1,38 +1,41 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Narrowing} from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Narrowing, WithError } from "./types.js";
 
-export default function record<K extends string, V>(
-  key: Narrowing<string, K>,
-  value: Guard<V>
-): Guard<Record<K, V>> {
-  return function isRecord(v): v is Record<K, V> {
-    dev_log_start(isRecord);
+export function record<K extends string, V>(
+  keyGuard: Narrowing<string, K>,
+  valueGuard: Guard<V>
+): WithError<Guard<Record<K, V>>> {
+  function isRecord(v: unknown): v is Record<K, V> {
+    context.track();
+
+    if (v === null) {
+      return context.block(isRecord, `value is "null"`);
+    }
 
     if (typeof v !== "object" || v === null) {
-      dev_log(
-        isRecord,
-        v === null
-          ? `failed - value is "null"`
-          : `failed - typeof value is not "object"`,
-        v
-      );
-      return false;
+      return context.block(isRecord, `value is not of type "object"`);
     }
 
-    for (const _key in v) {
-      if (!key(_key)) {
-        dev_log(isRecord, `key guard failed at key "${_key}"`, _key);
-        return false;
+    for (const key in v) {
+      if (!keyGuard(key)) {
+        return context.block(
+          isRecord,
+          `key "${key}" is blocked by guard "${fnName(keyGuard)}"`
+        );
       }
       // @ts-expect-error suppress
-      const _value = v[_key];
-      if (!value(_value)) {
-        dev_log(isRecord, `value guard failed at key "${_key}"`, _value);
-        return false;
+      const value = v[key];
+      if (!valueGuard(value)) {
+        return context.block(
+          isRecord,
+          `value at key "${key}" is blocked by guard "${fnName(valueGuard)}"`
+        );
       }
     }
 
-    dev_log_end(isRecord);
-    return true;
-  };
+    return context.pass();
+  }
+
+  return context.withError(isRecord, "record");
 }

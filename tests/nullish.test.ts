@@ -1,11 +1,13 @@
-import isString from "../src/isString";
-import nullish from "../src/nullish";
+import { isString } from "../src/isString";
+import { nullish } from "../src/nullish";
 
 test(nullish.name, () => {
-  const isNullOrString = nullish(isString);
-  expect(isNullOrString("abc")).toBe(true);
-  expect(isNullOrString("")).toBe(true);
-  expect(isNullOrString(null)).toBe(true);
-  expect(isNullOrString(undefined)).toBe(true);
-  expect(isNullOrString(0)).toBe(false);
+  const isNullish = nullish(isString);
+  expect(isNullish("abc")).toBe(true);
+  expect(isNullish("")).toBe(true);
+  expect(isNullish(null)).toBe(true);
+  expect(isNullish(undefined)).toBe(true);
+  expect(isNullish(0)).toBe(false);
+
+  expect(isNullish.name).toBe("or(isUndefined,isNull,isString)");
 });

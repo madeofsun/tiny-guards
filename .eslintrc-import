@@ -49,7 +49,7 @@
         "import/no-anonymous-default-export": [
           "error"
         ],
-        "import/no-named-export": [
+        "import/no-default-export": [
           "error"
         ]
       }

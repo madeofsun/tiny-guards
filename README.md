@@ -1,21 +1,19 @@
 # tiny-guards 💂
 
-A tiny library for advanced typescript guarding
+> A tiny library for advanced typescript guarding
 
 - 🪶 lightweight
-
 - 🍃 tree-shakable
-
 - 🧱 composable
-
 - 👮 type-safe
-
 - 🔗 zero dependencies
-
 - 🌚 dead simple
 
-![npm](https://img.shields.io/npm/v/tiny-guards?logo=npm&color=brightgreen&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftiny-guards)
-![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?labelColor=coverage)
+<p>
+  <a href="https://npmjs.com/package/tiny-guards"><img src="https://img.shields.io/npm/v/tiny-guards?logo=npm&color=brightgreen" alt="npm package"></a>
+  <a href="https://github.com/madeofsun/tiny-guards/actions/workflows/test.yaml"><img src="https://github.com/madeofsun/tiny-guards/actions/workflows/test.yaml/badge.svg" alt="build status"></a>
+  <a href="https://github.com/madeofsun/tiny-guards/blob/main/jest-config/index.cjs#L30"><img src="https://img.shields.io/badge/coverage-100%25-brightgreen?labelColor=coverage" alt="coverage"/></a>
+</p>
 
 ```bash
 npm install tiny-guards
@@ -25,6 +23,7 @@ npm install tiny-guards
 
 ```typescript
 import {
+  asserts,
   gt,
   isNumber,
   isString,
@@ -34,9 +33,10 @@ import {
   refine,
   shape,
   Guard,
+  tinyGuards,
 } from "tiny-guards";
 
-const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));
+const isNaturalNumber = refine(isNumber, gt(0), Number.isSafeInteger);
 const isShortString = refine(isString, maxLen(16));
 const isAccountType = oneOf(["reader", "publisher", "moderator"]);
 
@@ -48,12 +48,31 @@ const isUser = shape({
   lastName: optional(isString),
 });
 
-type User = Guard.Infer<typeof isUser>;
+type User = GuardInfer<typeof isUser>;
+
+function doSomething(v: unknown) {
+  try {
+    asserts(v, isUser);
+
+    v.id; // ✅
+    v.username; // ✅
+  } catch (error) {
+    console.error(error);
+    // TinyGuardsError: validation failed
+    // [shape]: value at key "id" is blocked by guard "refine"
+    // [refine]: value is blocked by refinement "gt" (index "0")
+  }
+}
 
 function doSomething(v: unknown) {
   if (isUser(v)) {
     v.id; // ✅
     v.username; // ✅
+  } else {
+    isUser.error;
+    // TinyGuardsError: validation failed
+    // [shape]: value at key "id" is blocked by guard "refine"
+    // [refine]: value is blocked by refinement "gt" (index "0")
   }
 }
 ```

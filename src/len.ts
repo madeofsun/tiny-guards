@@ -1,7 +1,6 @@
-import type {Refinement} from "./types.js";
+import { p } from "./p.js";
+import type { Refinement } from "./types.js";
 
-export default function len(len: number): Refinement<{ length: number }> {
-  return function isLen(v) {
-    return v.length === len;
-  };
+export function len(length: number): Refinement<{ length: number }> {
+  return p("len", (v) => v.length === length);
 }

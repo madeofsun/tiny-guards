@@ -1,24 +1,28 @@
-import { dev_log, dev_log_end, dev_log_start } from "./internal/dev_log.js";
-import type {Guard, Narrowing} from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Narrowing, WithError } from "./types.js";
 
-export default function narrow<T1, T2 extends T1>(
+export function narrow<T1, T2 extends T1>(
   guard: Guard<T1>,
   narrowing: Narrowing<T1, T2>
-): Guard<T2> {
-  return function isNarrowing(v: unknown): v is T2 {
-    dev_log_start(isNarrowing);
-
+): WithError<Guard<T2>> {
+  function isNarrowing(v: unknown): v is T2 {
     if (!guard(v)) {
-      dev_log(isNarrowing, `guard failed`, v);
-      return false;
+      return context.block(
+        isNarrowing,
+        `value is blocked by narrowing "${fnName(narrowing)}"`
+      );
     }
 
     if (!narrowing(v)) {
-      dev_log(isNarrowing, `narrowing failed`, v);
-      return false;
+      return context.block(
+        isNarrowing,
+        `value is blocked by narrowing "${fnName(narrowing)}"`
+      );
     }
 
-    dev_log_end(isNarrowing);
     return true;
-  };
+  }
+
+  return context.withError(isNarrowing, "narrow");
 }
