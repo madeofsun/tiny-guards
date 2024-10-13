@@ -14,7 +14,7 @@ A tiny library for advanced typescript guarding
 
 - 🌚 dead simple
 
-![npm](https://img.shields.io/npm/v/tiny-guards?logo=npm&color=brightgreen&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftiny-guards)
+<object alt="npm" src="https://img.shields.io/badge/tiny-guards?label=npm&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ftiny-guards">
 ![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?labelColor=coverage)
 
 ```bash
@@ -25,6 +25,7 @@ npm install tiny-guards
 
 ```typescript
 import {
+  asserts,
   gt,
   isNumber,
   isString,
@@ -52,15 +53,28 @@ const isUser = shape({
 type User = GuardInfer<typeof isUser>;
 
 function doSomething(v: unknown) {
+  try {
+    asserts(v, isUser);
+
+    v.id; // ✅
+    v.username; // ✅
+  } catch (error) {
+    console.error(error);
+    // TinyGuardsError: validation failed
+    // [shape]: value at key "id" is blocked by guard "refine"
+    // [refine]: value is blocked by refinement "gt" (index "0")
+  }
+}
+
+function doSomething(v: unknown) {
   if (isUser(v)) {
     v.id; // ✅
     v.username; // ✅
   } else {
-    // if you need details
     isUser.error;
     // TinyGuardsError: validation failed
-    // [isShape]: value at key "id" is blocked by guard "isRefinement"
-    // [isRefinement]: value is blocked by refinement "isGt" (index "0")
+    // [shape]: value at key "id" is blocked by guard "refine"
+    // [refine]: value is blocked by refinement "gt" (index "0")
   }
 }
 ```
