@@ -2,7 +2,7 @@
 "tiny-guards": major
 ---
 
-`Dev log` feature is replaced with `ComplexGuard` feature
+`Dev log` feature is replaced with `WithError` feature
 
 Example:
 
