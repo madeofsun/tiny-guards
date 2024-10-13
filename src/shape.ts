@@ -4,7 +4,7 @@ import type { Guard, Shape, WithError } from "./types.js";
 
 export function shape<T extends object>(
   shape: Shape<T>,
-  options?: { exact?: boolean }
+  options?: { strict?: boolean }
 ): WithError<Guard<T>> {
   function isShape(v: unknown): v is T {
     context.track();
@@ -32,7 +32,7 @@ export function shape<T extends object>(
       }
     }
 
-    if (options?.exact) {
+    if (options?.strict) {
       for (const key in v) {
         if (key in shape === false) {
           return context.block(isShape, `unknown key "${key}"`);

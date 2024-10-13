@@ -19,7 +19,7 @@ if (isData(v)) {
   // if you need details
   isData.error;
   // TinyGuardsError: validation failed
-  // [isShape]: value at key "values" is blocked by guard "isArray"
-  // [isArray]: item at index "1" is blocked by guard "isString"
+  // [shape]: value at key "values" is blocked by guard "array"
+  // [array]: item at index "1" is blocked by guard "isString"
 }
 ```

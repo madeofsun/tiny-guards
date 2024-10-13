@@ -117,8 +117,8 @@ describe(shape.name, () => {
     ).toBe(false);
   });
 
-  test("exact", () => {
-    const isEmptyShape = shape({}, { exact: true });
+  test("strict", () => {
+    const isEmptyShape = shape({}, { strict: true });
     expect(isEmptyShape({})).toBe(true);
     expect(isEmptyShape({ a: "a" })).toBe(false);
 
@@ -130,7 +130,7 @@ describe(shape.name, () => {
         firstName: optional(isString),
         lastName: optional(isString),
       },
-      { exact: true }
+      { strict: true }
     );
 
     expect(isUser({})).toBe(false);

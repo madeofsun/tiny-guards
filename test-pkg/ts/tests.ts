@@ -346,10 +346,10 @@ export type Primitive =
   const t2 = shape({ a: shape({ b: isString }) });
   type test2 = Expect<Equal<GuardInfer<typeof t2>, { a: { b: string } }>>;
 
-  const t3 = shape({ a: isString }, { exact: true });
+  const t3 = shape({ a: isString }, { strict: true });
   type test3 = Expect<Equal<GuardInfer<typeof t3>, { a: string }>>;
 
-  const t4 = shape({ a: isString }, { exact: false });
+  const t4 = shape({ a: isString }, { strict: false });
   type test4 = Expect<Equal<GuardInfer<typeof t4>, { a: string }>>;
 }
 
