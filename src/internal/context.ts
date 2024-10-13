@@ -1,42 +1,18 @@
-import type {
-  ComplexGuard,
-  Guard,
-  GuardLog,
-  GuardError as IGuardError,
-} from "../types.js";
+import type { Predicate, WithError } from "../types.js";
 
-import { fnName } from "./utils.js";
+import { fnName, setFnName } from "./utils/fn-name.js";
 
-class GuardError extends Error implements IGuardError {
-  log: GuardLog;
-
-  constructor(log: GuardLog) {
-    super(`validation failed\n${log.map(({ message }) => message).join("\n")}`);
-    this.name = this.constructor.name;
-    this.log = log;
+class GuardError extends Error {
+  constructor(log: string[]) {
+    super(`validation failed\n${log.join("\n")}`);
+    this.name = "GuardError";
   }
-}
-
-export function complexGuard<T>(guard: Guard<T>) {
-  Object.defineProperty(guard, "error", {
-    get() {
-      const error = context.error;
-      if (error === null) {
-        throw new Error(
-          `Invalid usage of "${fnName(guard)}.error" - last guard execution has completed successfully.`
-        );
-      }
-      return error;
-    },
-  });
-  return guard as ComplexGuard<T>;
 }
 
 class Context {
   private count = 0;
-  private log: GuardLog = [];
-
-  error: null | GuardError = null;
+  private log: string[] = [];
+  private error: null | GuardError = null;
 
   track() {
     if (this.count === 0) {
@@ -60,15 +36,27 @@ class Context {
     return true;
   }
 
-  block(anchor: { name: string }, message: string, value: unknown) {
-    this.log.push({
-      message: `[${anchor.name}]: ${message}`,
-      value: value,
-    });
+  block(anchor: Predicate, message: string) {
+    this.log.push(`[${fnName(anchor)}]: ${message}`);
 
     this.trackEnd();
 
     return false;
+  }
+
+  withError<T extends Predicate>(anchor: T, name: string): WithError<T> {
+    setFnName(anchor, name);
+
+    if ("error" in anchor === false) {
+      Object.defineProperty(anchor, "error", {
+        get() {
+          return context.error;
+        },
+        configurable: true,
+      });
+    }
+
+    return anchor as WithError<T>;
   }
 }
 

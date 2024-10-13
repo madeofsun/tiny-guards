@@ -1,3 +1,6 @@
-export function isNumber(v: unknown): v is number {
-  return typeof v === "number";
-}
+import { p } from "./p.js";
+
+export const isNumber = p(
+  "isNumber",
+  (v: unknown): v is number => typeof v === "number"
+);

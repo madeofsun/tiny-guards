@@ -1,8 +1,8 @@
-import type { Guard } from "./types.js";
+import { p } from "./p.js";
+import type { Guard, Primitive } from "./types.js";
 
-export function oneOf<T>(values: readonly T[]): Guard<T> {
+export function oneOf<T extends Primitive>(values: readonly T[]): Guard<T> {
   const set = new Set<unknown>(values);
-  return function isOneOf(v: unknown): v is T {
-    return set.has(v);
-  };
+
+  return p("oneOf", (v: unknown): v is T => set.has(v));
 }

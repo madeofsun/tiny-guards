@@ -10,4 +10,6 @@ test(or.name, () => {
   expect(isStringOrNumber(-0)).toBe(true);
   expect(isStringOrNumber(null)).toBe(false);
   expect(isStringOrNumber(() => null)).toBe(false);
+
+  expect(isStringOrNumber.name).toBe("or(isString,isNumber)");
 });

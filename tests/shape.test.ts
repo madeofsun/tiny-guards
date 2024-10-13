@@ -1,16 +1,22 @@
+import { gt } from "../src/gt";
 import { isNumber } from "../src/isNumber";
 import { isString } from "../src/isString";
+import { maxLen } from "../src/maxLen";
 import { oneOf } from "../src/oneOf";
 import { optional } from "../src/optional";
 import { refine } from "../src/refine";
-import { gt } from "../src/gt";
-import { maxLen } from "../src/maxLen";
 import { shape } from "../src/shape";
 
 describe(shape.name, () => {
   const isNaturalNumber = refine(isNumber, Number.isSafeInteger, gt(0));
   const isShortString = refine(isString, maxLen(16));
   const isAccountType = oneOf(["reader", "publisher", "moderator"]);
+
+  test("name", () => {
+    const isShape = shape({});
+
+    expect(isShape.name).toBe("shape");
+  });
 
   test("standard", () => {
     const isEmptyShape = shape({});
@@ -111,7 +117,7 @@ describe(shape.name, () => {
     ).toBe(false);
   });
 
-  test("strict", () => {
+  test("exact", () => {
     const isEmptyShape = shape({}, { exact: true });
     expect(isEmptyShape({})).toBe(true);
     expect(isEmptyShape({ a: "a" })).toBe(false);

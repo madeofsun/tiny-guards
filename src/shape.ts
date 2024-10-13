@@ -1,27 +1,22 @@
-import { complexGuard, context } from "./internal/context.js";
-import { fnName } from "./internal/utils.js";
-import type { ComplexGuard, Guard } from "./types.js";
-
-export type Shape<S extends object> = {
-  [P in keyof S]: Guard<S[P]>;
-};
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Shape, WithError } from "./types.js";
 
 export function shape<T extends object>(
   shape: Shape<T>,
   options?: { exact?: boolean }
-): ComplexGuard<T> {
-  return complexGuard(function isShape(v: unknown): v is T {
+): WithError<Guard<T>> {
+  function isShape(v: unknown): v is T {
     context.track();
 
     if (v === null) {
-      return context.block(isShape, `value is "null"`, v);
+      return context.block(isShape, `value is "null"`);
     }
 
     if (typeof v !== "object" && typeof v !== "function") {
       return context.block(
         isShape,
-        `value is not of type "object" or "function"`,
-        v
+        `value is not of type "object" or "function"`
       );
     }
 
@@ -32,8 +27,7 @@ export function shape<T extends object>(
       if (!guard(value)) {
         return context.block(
           isShape,
-          `value at key "${key}" is blocked by guard "${fnName(guard)}"`,
-          value
+          `value at key "${key}" is blocked by guard "${fnName(guard)}"`
         );
       }
     }
@@ -41,11 +35,13 @@ export function shape<T extends object>(
     if (options?.exact) {
       for (const key in v) {
         if (key in shape === false) {
-          return context.block(isShape, `unknown key "${key}"`, v);
+          return context.block(isShape, `unknown key "${key}"`);
         }
       }
     }
 
     return context.pass();
-  });
+  }
+
+  return context.withError(isShape, "shape");
 }

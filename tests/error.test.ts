@@ -1,22 +1,11 @@
 import { array } from "../src/array";
 
-describe("Guards", () => {
-  describe("error", () => {
-    test("throw on first", () => {
-      const isArray = array();
-      expect(() => isArray.error).toThrow("Invalid usage");
-    });
+test("error", () => {
+  const isArray = array();
+  isArray(1);
 
-    test("throw on valid", () => {
-      const isArray = array();
-      isArray([]);
-      expect(() => isArray.error).toThrow("Invalid usage");
-    });
+  expect(isArray.error?.message).toMatch(/^validation failed\n\[array\]/);
 
-    test("do not throw on invalid", () => {
-      const isArray = array();
-      isArray(1);
-      expect(isArray.error.message).toMatch(/^validation failed\n\[isArray\]/);
-    });
-  });
+  isArray([]);
+  expect(isArray.error).toBe(null);
 });

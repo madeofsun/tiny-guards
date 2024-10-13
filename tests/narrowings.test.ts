@@ -11,6 +11,7 @@ describe("narrowings", () => {
     expect(isUppercase("ABC")).toBe(true);
     expect(isUppercase("ABc")).toBe(false);
     expect(isUppercase("abc")).toBe(false);
+    expect(isUppercase.name).toBe("isUppercase");
   });
 
   test(isLowercase.name, () => {
@@ -18,33 +19,38 @@ describe("narrowings", () => {
     expect(isLowercase("ABC")).toBe(false);
     expect(isLowercase("ABc")).toBe(false);
     expect(isLowercase("abc")).toBe(true);
+    expect(isLowercase.name).toBe("isLowercase");
   });
 
   test(isCapitalized.name, () => {
     expect(isCapitalized("")).toBe(true);
     expect(isCapitalized("A")).toBe(true);
     expect(isCapitalized("a")).toBe(false);
+    expect(isCapitalized.name).toBe("isCapitalized");
   });
 
   test(isUncapitalized.name, () => {
     expect(isUncapitalized("")).toBe(true);
     expect(isUncapitalized("A")).toBe(false);
     expect(isUncapitalized("a")).toBe(true);
+    expect(isUncapitalized.name).toBe("isUncapitalized");
   });
 
   test(startsWith.name, () => {
-    const hasPrefix = startsWith("$");
-    expect(hasPrefix("")).toBe(false);
-    expect(hasPrefix("$")).toBe(true);
-    expect(hasPrefix("$a")).toBe(true);
-    expect(hasPrefix("a$")).toBe(false);
+    const isStartsWith = startsWith("$");
+    expect(isStartsWith("")).toBe(false);
+    expect(isStartsWith("$")).toBe(true);
+    expect(isStartsWith("$a")).toBe(true);
+    expect(isStartsWith("a$")).toBe(false);
+    expect(isStartsWith.name).toBe("startsWith");
   });
 
   test(endsWith.name, () => {
-    const hasSuffix = endsWith("$");
-    expect(hasSuffix("")).toBe(false);
-    expect(hasSuffix("$")).toBe(true);
-    expect(hasSuffix("$a")).toBe(false);
-    expect(hasSuffix("a$")).toBe(true);
+    const isEndsWith = endsWith("$");
+    expect(isEndsWith("")).toBe(false);
+    expect(isEndsWith("$")).toBe(true);
+    expect(isEndsWith("$a")).toBe(false);
+    expect(isEndsWith("a$")).toBe(true);
+    expect(isEndsWith.name).toBe("endsWith");
   });
 });

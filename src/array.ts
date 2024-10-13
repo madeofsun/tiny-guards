@@ -1,16 +1,16 @@
-import { complexGuard, context } from "./internal/context.js";
-import { fnName } from "./internal/utils.js";
-import type { ComplexGuard, Guard, Refinement } from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Refinement, WithError } from "./types.js";
 
 export function array<T>(
   guard?: Guard<T>,
   ...refinements: readonly Refinement<unknown[]>[]
-): ComplexGuard<T[]> {
-  return complexGuard(function isArray(v: unknown): v is T[] {
+): WithError<Guard<T[]>> {
+  function isArray(v: unknown): v is T[] {
     context.track();
 
     if (!Array.isArray(v)) {
-      return context.block(isArray, `value is not array`, v);
+      return context.block(isArray, `value is not array`);
     }
 
     for (let i = 0; i < refinements.length; i++) {
@@ -18,8 +18,7 @@ export function array<T>(
       if (!refinement(v)) {
         return context.block(
           isArray,
-          `array is blocked by refinement "${fnName(refinement)}" (index "${i}")`,
-          v
+          `array is blocked by refinement "${fnName(refinement)}" (index "${i}")`
         );
       }
     }
@@ -30,13 +29,14 @@ export function array<T>(
         if (!guard(item)) {
           return context.block(
             isArray,
-            `item at index "${i}" is blocked by guard "${fnName(guard)}"`,
-            item
+            `item at index "${i}" is blocked by guard "${fnName(guard)}"`
           );
         }
       }
     }
 
     return context.pass();
-  });
+  }
+
+  return context.withError(isArray, "array");
 }

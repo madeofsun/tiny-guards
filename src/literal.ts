@@ -1,7 +1,6 @@
-import type { Guard } from "./types.js";
+import { p } from "./p.js";
+import type { Guard, Primitive } from "./types.js";
 
-export function literal<T>(literal: T): Guard<T> {
-  return function isLiteral(v: unknown): v is T {
-    return v === literal;
-  };
+export function literal<T extends Primitive>(literal: T): Guard<T> {
+  return p("literal", (v: unknown): v is T => v === literal);
 }

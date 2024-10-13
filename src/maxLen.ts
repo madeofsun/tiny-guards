@@ -1,7 +1,6 @@
+import { p } from "./p.js";
 import type { Refinement } from "./types.js";
 
-export function maxLen(len: number): Refinement<{ length: number }> {
-  return function isMaxLen(v) {
-    return v.length <= len;
-  };
+export function maxLen(length: number): Refinement<{ length: number }> {
+  return p("maxLen", (v) => v.length <= length);
 }

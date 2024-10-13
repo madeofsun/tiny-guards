@@ -9,4 +9,6 @@ test(narrow.name, () => {
   expect(isNarrow("$abc")).toBe(true);
   expect(isNarrow("")).toBe(false);
   expect(isNarrow(1)).toBe(false);
+
+  expect(isNarrow.name).toBe("narrow");
 });

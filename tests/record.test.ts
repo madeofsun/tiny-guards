@@ -1,6 +1,7 @@
 import { isString } from "../src/isString";
 import { startsWith } from "../src/startsWith";
 import { record } from "../src/record";
+import { fnName } from "../src/internal/utils/fn-name";
 
 test(record.name, () => {
   const symbol = Symbol();
@@ -19,4 +20,6 @@ test(record.name, () => {
   expect(isRecord({ [symbol]: "" })).toBe(true);
   expect(isRecord({ [symbol]: "", $a: "a" })).toBe(true);
   expect(isRecord({ [symbol]: "", a: "a" })).toBe(false);
+
+  expect(fnName(isRecord)).toBe("record");
 });

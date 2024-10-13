@@ -1,19 +1,18 @@
-import { complexGuard, context } from "./internal/context.js";
-import { fnName } from "./internal/utils.js";
-import type { ComplexGuard, Guard, Refinement } from "./types.js";
+import { context } from "./internal/context.js";
+import { fnName } from "./internal/utils/fn-name.js";
+import type { Guard, Refinement, WithError } from "./types.js";
 
 export function refine<T>(
   guard: Guard<T>,
   ...refinements: readonly Refinement<T>[]
-): ComplexGuard<T> {
-  return complexGuard(function isRefinement(v: unknown): v is T {
+): WithError<Guard<T>> {
+  function isRefinement(v: unknown): v is T {
     context.track();
 
     if (!guard(v)) {
       return context.block(
         isRefinement,
-        `value is blocked by guard "${fnName(guard)}"`,
-        v
+        `value is blocked by guard "${fnName(guard)}"`
       );
     }
 
@@ -22,12 +21,13 @@ export function refine<T>(
       if (!refinement(v)) {
         return context.block(
           isRefinement,
-          `value is blocked by refinement "${fnName(refinement)}" (index "${i}")`,
-          v
+          `value is blocked by refinement "${fnName(refinement)}" (index "${i}")`
         );
       }
     }
 
     return context.pass();
-  });
+  }
+
+  return context.withError(isRefinement, "refine");
 }

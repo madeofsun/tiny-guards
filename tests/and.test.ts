@@ -16,4 +16,11 @@ test(and.name, () => {
   expect(isAB({ a: 1 })).toBe(false);
   expect(isAB({ b: "b" })).toBe(false);
   expect(isAB({})).toBe(false);
+
+  expect(isAB.name).toBe("and");
+
+  expect(() => {
+    isAB(1);
+    throw isAB.error;
+  }).toThrow("validation failed\n[and]");
 });

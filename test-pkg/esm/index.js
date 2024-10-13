@@ -14,6 +14,14 @@ import { array as array$2 } from "tiny-guards/array";
 if (typeof array$2 === "undefined") {
   throw new Error("array$2 is not defined");
 }
+import { asserts } from "tiny-guards";
+if (typeof asserts === "undefined") {
+  throw new Error("asserts is not defined");
+}
+import { asserts as asserts$2 } from "tiny-guards/asserts";
+if (typeof asserts$2 === "undefined") {
+  throw new Error("asserts$2 is not defined");
+}
 import { endsWith } from "tiny-guards";
 if (typeof endsWith === "undefined") {
   throw new Error("endsWith is not defined");
@@ -253,6 +261,14 @@ if (typeof or === "undefined") {
 import { or as or$2 } from "tiny-guards/or";
 if (typeof or$2 === "undefined") {
   throw new Error("or$2 is not defined");
+}
+import { p } from "tiny-guards";
+if (typeof p === "undefined") {
+  throw new Error("p is not defined");
+}
+import { p as p$2 } from "tiny-guards/p";
+if (typeof p$2 === "undefined") {
+  throw new Error("p$2 is not defined");
 }
 import { record } from "tiny-guards";
 if (typeof record === "undefined") {
