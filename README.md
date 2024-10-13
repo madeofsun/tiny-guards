@@ -15,7 +15,7 @@ A tiny library for advanced typescript guarding
 - 🌚 dead simple
 
 <p>
-  <a href="https://npmjs.com/package/tiny-guards"><img src="https://badgen.net/npm/v/tiny-guards" alt="npm package"></a>
+  <a href="https://npmjs.com/package/tiny-guards"><img src="https://img.shields.io/npm/v/tiny-guards?logo=npm&color=brightgreen" alt="npm package"></a>
   <a href="https://github.com/madeofsun/tiny-guards/actions/workflows/test.yaml"><img src="https://github.com/madeofsun/tiny-guards/actions/workflows/test.yaml/badge.svg" alt="build status"></a>
   <a href="https://github.com/madeofsun/tiny-guards/blob/main/jest-config/index.cjs#L30"><img src="https://img.shields.io/badge/coverage-100%25-brightgreen?labelColor=coverage" alt="coverage"/></a>
 </p>
